@@ -1,3 +1,4 @@
+# Main Shiny App to be updated later
 library(shiny)
 library(xts)
 library(quantmod)
