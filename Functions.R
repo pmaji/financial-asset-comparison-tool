@@ -91,11 +91,75 @@ get_pair_data <- function(asset_1, asset_2, start_date, end_date, initial_invest
   # renaming portfolio values to make them readable
   names(portfolio_data)[4:5] <- c(asset_1_port_val_name, asset_2_port_val_name)
   
-  return(head(portfolio_data))
+  return((portfolio_data))
   
   
 }
 
+fbbtc <- get_pair_data("btc","FB")
+
+
+plot_ly(data, x = ~x) %>%
+  add_trace(y = ~trace_0, name = 'trace 0', mode = 'lines') %>%
+  add_trace(y = ~trace_1, name = 'trace 1', mode = 'lines+markers') %>%
+  add_trace(y = ~trace_2, name = 'trace 2', mode = 'markers')
+
+
+library(plotly)
+
+# plotly scatter documentation 
+
+plot_ly(data = fbbtc, x = ~date) %>%
+  add_trace(y = ~btc_port_val, name = "BTC_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
+  add_trace(y = ~FB_port_val, name = "FB_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
+  layout(
+    title = 'Assets Compared',
+    xaxis = list(
+      type = 'date',
+      title = 'Date'
+    ),
+    yaxis = list(
+      title = 'Portfolio Value'
+    )
+  )
+
+
+today <- Sys.Date()
+
+plot_ly(data = fbbtc, x = ~date) %>%
+  add_trace(y = ~btc_port_val, name = "BTC_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
+  add_trace(y = ~FB_port_val, name = "FB_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
+  layout(
+    title = "Asset Prices",
+    xaxis = list(
+      type = 'date',
+      rangeselector = list(
+        buttons = list(
+          list(
+            count = 3,
+            label = "3 mo",
+            step = "month",
+            stepmode = "backward"),
+          list(
+            count = 6,
+            label = "6 mo",
+            step = "month",
+            stepmode = "backward"),
+          list(
+            count = 1,
+            label = "1 yr",
+            step = "year",
+            stepmode = "backward"),
+          list(
+            count = 1,
+            label = "YTD",
+            step = "year",
+            stepmode = "todate"),
+          list(step = "all"))),
+      
+      rangeslider = list(type = "date")),
+    
+    yaxis = list(title = "Price"))
 
 
 
