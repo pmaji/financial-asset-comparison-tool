@@ -99,32 +99,9 @@ get_pair_data <- function(asset_1, asset_2, start_date, end_date, initial_invest
 fbbtc <- get_pair_data("btc","FB")
 
 
-plot_ly(data, x = ~x) %>%
-  add_trace(y = ~trace_0, name = 'trace 0', mode = 'lines') %>%
-  add_trace(y = ~trace_1, name = 'trace 1', mode = 'lines+markers') %>%
-  add_trace(y = ~trace_2, name = 'trace 2', mode = 'markers')
-
+# now time to build the Plotly
 
 library(plotly)
-
-# plotly scatter documentation 
-
-plot_ly(data = fbbtc, x = ~date) %>%
-  add_trace(y = ~btc_port_val, name = "BTC_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
-  add_trace(y = ~FB_port_val, name = "FB_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
-  layout(
-    title = 'Assets Compared',
-    xaxis = list(
-      type = 'date',
-      title = 'Date'
-    ),
-    yaxis = list(
-      title = 'Portfolio Value'
-    )
-  )
-
-
-today <- Sys.Date()
 
 plot_ly(data = fbbtc, x = ~date) %>%
   add_trace(y = ~btc_port_val, name = "BTC_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
