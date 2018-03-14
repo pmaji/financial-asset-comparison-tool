@@ -5,9 +5,17 @@ library(zoo)
 library(TTR)
 library(magrittr)
 library(htmlwidgets)
+library(data.table)
+library(rsconnect) # for publishing
+library(plotly)
+
+# trying to fix this damn shiny apps .io problem with dates 
+orig_locale <- Sys.getlocale("LC_TIME") 
+Sys.setlocale("LC_TIME", "C")
+Sys.setlocale("LC_TIME", orig_locale)
+
 
 # source the Functions.R file
-setwd("~/Desktop/Personal/personal code/crypto-asset-comparison-tool/")
 source("Functions.R")
 
 
