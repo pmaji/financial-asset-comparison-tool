@@ -92,7 +92,7 @@ get_pair_data <- function(asset_1, asset_2, start_date, end_date, initial_invest
   names(portfolio_data)[4:5] <- c(asset_1_port_val_name, asset_2_port_val_name)
 
   # trying to fix shiny apps .io problem
-  portfolio_data$date <- as.Date(portfolio_data$date, format = "%d %B %Y")
+  # portfolio_data$date <- as.Date(portfolio_data$date, format = "%d %B %Y")
   
   return((portfolio_data))
   
