@@ -1,3 +1,5 @@
+library(plotly)
+
 # Functions file to be sourced within app later
 
 # Function for fetching data and constructing main portfolio table
@@ -96,47 +98,54 @@ get_pair_data <- function(asset_1, asset_2, start_date, end_date, initial_invest
   
 }
 
-fbbtc <- get_pair_data("btc","FB")
+# 
+# base_data <- get_pair_data("ltc","XOM")
 
 
+build_portfolio_perf_chart <- function(data){
+  
+# first the function to build the portfolio chart
+
+port_tbl <- data[,c(1,4:5)]
 # now time to build the Plotly
 
-library(plotly)
+# grabbing the 2 asset names
+asset_name1 <- sub('_.*', '', names(port_tbl)[2])
+asset_name2 <- sub('_.*', '', names(port_tbl)[3])
 
-plot_ly(data = fbbtc, x = ~date) %>%
-  add_trace(y = ~btc_port_val, name = "BTC_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
-  add_trace(y = ~FB_port_val, name = "FB_PORT_VAL",  type = "scatter", mode = "lines+markers") %>%
+
+port_perf_plot <- plot_ly(data = port_tbl, x = ~date) %>%
+  # asset 1 data plotted
+  add_trace(y = ~port_tbl[,2], 
+            name = toupper(asset_name1),  
+            type = "scatter", 
+            mode = "lines+markers") %>%
+  # asset 2 data plotted
+  add_trace(y = ~port_tbl[,3], 
+            name = toupper(asset_name2),  
+            type = "scatter", 
+            mode = "lines+markers") %>%
   layout(
-    title = "Asset Prices",
-    xaxis = list(
-      type = 'date',
-      rangeselector = list(
-        buttons = list(
-          list(
-            count = 3,
-            label = "3 mo",
-            step = "month",
-            stepmode = "backward"),
-          list(
-            count = 6,
-            label = "6 mo",
-            step = "month",
-            stepmode = "backward"),
-          list(
-            count = 1,
-            label = "1 yr",
-            step = "year",
-            stepmode = "backward"),
-          list(
-            count = 1,
-            label = "YTD",
-            step = "year",
-            stepmode = "todate"),
-          list(step = "all"))),
-      
-      rangeslider = list(type = "date")),
-    
-    yaxis = list(title = "Price"))
+    title = FALSE,
+    xaxis = list(type = "date",
+                 title = "Date"),
+    yaxis = list(title = "Price ($)"),
+    legend = list(orientation = 'h',
+                  x = 0,
+                  y = 1.15)) %>%
+  add_annotations(
+    x= 1,
+    y= 1.14,
+    xref = "paper",
+    yref = "paper",
+    text = "<b>Asset Portfolio Performance</b>",
+    showarrow = F
+  )
+
+return(port_perf_plot)
+
+}
+
 
 
 
