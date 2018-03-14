@@ -8,11 +8,13 @@ library(htmlwidgets)
 library(data.table)
 library(rsconnect) # for publishing
 library(plotly)
+library(dplyr)
+library(tidyr)
 
 # trying to fix this damn shiny apps .io problem with dates 
-orig_locale <- Sys.getlocale("LC_TIME") 
-Sys.setlocale("LC_TIME", "C")
-Sys.setlocale("LC_TIME", orig_locale)
+# orig_locale <- Sys.getlocale("LC_TIME") 
+# Sys.setlocale("LC_TIME", "C")
+# Sys.setlocale("LC_TIME", orig_locale)
 
 
 # source the Functions.R file
