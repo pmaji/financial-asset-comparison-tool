@@ -1,11 +1,11 @@
 # Functions file to be sourced within app later
 
-# Function for fetching data and constructing main portfolio table
-
 crypto_list <- c("btc","bch","ltc","eth")
 
+# Function for fetching data and constructing main portfolio table
+
 get_pair_data <- function(asset_1, asset_2, start_date, end_date, initial_investment=1000){
-  
+
   # Getting the data for asset 1
   # If it's a crypto asset then get it from coinmetrics.io; else get it from yahoo API
   if(asset_1 %in% crypto_list == T){
