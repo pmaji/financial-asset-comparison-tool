@@ -11,11 +11,6 @@ library(plotly)
 library(dplyr)
 library(tidyr)
 
-# trying to fix this damn shiny apps .io problem with dates 
-# orig_locale <- Sys.getlocale("LC_TIME") 
-# Sys.setlocale("LC_TIME", "C")
-# Sys.setlocale("LC_TIME", orig_locale)
-
 
 # source the Functions.R file
 source("Functions.R")
@@ -30,15 +25,27 @@ ui <- fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-      h6("Welcome! This simple app is meant to allow you to quickly compare the historical performance of various crypto and non-crypto assets"),
-      radioButtons("crypto", label = "Select crypto of interest", choices = c("btc","bch","ltc","eth")),
-      h6("Choose the date range for which you'd like data below:"),
-      textInput("stock", label = "Select non-crypto of interest", value = "SPY"),
+      h6("Welcome! This simple app is meant to allow you to quickly compare the historical performance of various crypto and non-crypto assets."),
+      numericInput(inputId = "initial_investment", 
+                   label = "Enter your initial invesment amount", 
+                   value = 1000, 
+                   min = 1, 
+                   max = NA, 
+                   step = 1),
+      h6("Use all lower-case to input crypto-assets, and all upper-case to input equities."),
+      # first the UI options to pick the 1st asset to compare:
+      textInput("asset_1", 
+                label = "Select 1st asset of interest", 
+                value = "eth"),
+      textInput("asset_2", 
+                label = "Select 2nd asset of interest", 
+                value = "GOOG"),
+      submitButton("Update View", icon("refresh")),
+      
+      # h6("Choose the date range for which you'd like data below:"),
       # dateRangeInput("dates", label = h3("Date range"), start = "2016-01-01", end = "2016-06-01"),
       wellPanel(
-        helpText(a("Click here to connect with the author", 
-                   href="https://www.linkedin.com/in/paulmjeffries/", target="_blank"),
-                 a("Read the documentation and methodology here", 
+        helpText(a("Read the documentation and methodology here", 
                     href="https://github.com/pmaji/crypto-asset-comparison-tool/blob/master/README.md", target="_blank")
         )
       )
@@ -55,7 +62,9 @@ server <- function(input, output) {
   
   # get data in first step; output view in second step
   output$portfolio_perf_chart <- renderPlotly({
-    base_data <- get_pair_data(input$crypto,input$stock)
+    base_data <- get_pair_data(asset_1 = input$asset_1,
+                               asset_2 = input$asset_2, 
+                               initial_investment = input$initial_investment)
     build_portfolio_perf_chart(base_data)
   })
 
