@@ -4,7 +4,11 @@ crypto_list <- c("btc","bch","ltc","eth")
 
 # Function for fetching data and constructing main portfolio table
 
-get_pair_data <- function(asset_1, asset_2, start_date, end_date, initial_investment=1000){
+get_pair_data <- function(asset_1 = "eth", 
+                          asset_2 = "GOOGL", 
+                          port_start_date = Sys.Date()-183, 
+                          port_end_date = Sys.Date()-3, 
+                          initial_investment=1000){
 
   # Getting the data for asset 1
   # If it's a crypto asset then get it from coinmetrics.io; else get it from yahoo API
@@ -68,6 +72,10 @@ get_pair_data <- function(asset_1, asset_2, start_date, end_date, initial_invest
   both_assets_data <- both_assets_data %>% fill(paste(asset_1))
   both_assets_data <- both_assets_data %>% fill(paste(asset_2))
   
+  # implement the date filter
+  both_assets_data <- both_assets_data %>%
+    filter(between(as.Date(date), as.Date(port_start_date), as.Date(port_end_date)))
+  
   # Now we get the portfolio values
   # First we need the market price for both assets at time of purchase
   asset_1_mp_at_purchase <- both_assets_data %>%
@@ -90,9 +98,6 @@ get_pair_data <- function(asset_1, asset_2, start_date, end_date, initial_invest
   asset_2_port_val_name = paste0(asset_2,"_port_val")
   # renaming portfolio values to make them readable
   names(portfolio_data)[4:5] <- c(asset_1_port_val_name, asset_2_port_val_name)
-
-  # trying to fix shiny apps .io problem
-  # portfolio_data$date <- as.Date(portfolio_data$date, format = "%d %B %Y")
   
   return((portfolio_data))
   
