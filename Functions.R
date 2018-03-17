@@ -1,5 +1,7 @@
 # Functions file to be sourced within app later
 
+symbol_list <- read.csv(file="CSVs/master.csv", colClasses=c("NULL",NA))
+symbol_list <- symbol_list[!(is.na(symbol_list$Symbol) | symbol_list$Symbol==""), ]
 crypto_list <- c("btc","bch","ltc","eth")
 
 # Function for fetching data and constructing main portfolio table
@@ -99,13 +101,10 @@ get_pair_data <- function(asset_1 = "eth",
   # renaming portfolio values to make them readable
   names(portfolio_data)[4:5] <- c(asset_1_port_val_name, asset_2_port_val_name)
   
-  return((portfolio_data))
+  return(portfolio_data)
   
   
 }
-
-# 
-# base_data <- get_pair_data("ltc","XOM")
 
 
 build_portfolio_perf_chart <- function(data){
@@ -123,12 +122,12 @@ asset_name2 <- sub('_.*', '', names(port_tbl)[3])
 port_perf_plot <- plot_ly(data = port_tbl, x = ~date) %>%
   # asset 1 data plotted
   add_trace(y = ~port_tbl[,2], 
-            name = toupper(asset_name1),  
+            name = asset_name1,  
             type = "scatter", 
             mode = "lines+markers") %>%
   # asset 2 data plotted
   add_trace(y = ~port_tbl[,3], 
-            name = toupper(asset_name2),  
+            name = asset_name2,  
             type = "scatter", 
             mode = "lines+markers") %>%
   layout(
@@ -141,7 +140,7 @@ port_perf_plot <- plot_ly(data = port_tbl, x = ~date) %>%
                   y = 1.15)) %>%
   add_annotations(
     x= 1,
-    y= 1.14,
+    y= 1.13,
     xref = "paper",
     yref = "paper",
     text = "<b>Asset Portfolio Performance</b>",
@@ -153,7 +152,130 @@ return(port_perf_plot)
 }
 
 
+##################
 
+get_portfolio_returns <- function(portfolio_data, period = "weekly"){
+  
+  # grab the string names of the assets for labelling later
+  asset_1_name_str <- names(portfolio_data[2])
+  asset_2_name_str <- names(portfolio_data[3])
+  
+  # create the xts objects necessary to run the periodReturn function
+  asset_1_xts <- xts(x=portfolio_data[,2], order.by=as.Date(portfolio_data$date))
+  asset_2_xts <- xts(x=portfolio_data[,3], order.by=as.Date(portfolio_data$date))
+  
+  # get the returns of the assets over the chosen period 
+  asset_1_returns <- periodReturn(asset_1_xts, period = period)
+  asset_2_returns <- periodReturn(asset_2_xts, period = period)
+  
+  # make the naming of the columns more intuitive
+  names(asset_1_returns) <- paste0(asset_1_name_str,"_returns")
+  names(asset_2_returns) <- paste0(asset_2_name_str,"_returns")
+  
+  # return a list of dataframes containing the returns that can be referenced later
+  asset_returns_list <- list(asset_1_returns, asset_2_returns)
+  
+  return(asset_returns_list)
+}
+
+
+get_sharpe_ratio_plot <- function(asset_returns_list, Rf = 0, p=0.95){
+  
+  # calculating the shapre ratios for each asset (rounded to 4th decimal)
+  asset_1_sharp_ratios <- round(SharpeRatio(asset_returns_list[[1]], Rf = Rf, p=p), 4)
+  asset_2_sharp_ratios <- round(SharpeRatio(asset_returns_list[[2]], Rf = Rf, p=p), 4)
+  
+  # adding intuitve names to tables
+  # extra spaces injected into column names to facilitate ploly labelling later
+  asset_1_sharp_ratio_df <- data.frame(metric = c("StdDev Sharpe   ","VaR Sharpe   ","ES Sharpe   "),
+                                       coredata(asset_1_sharp_ratios))
+  asset_2_sharp_ratio_df <- data.frame(metric = c("StdDev Sharpe   ","VaR Sharpe   ","ES Sharpe   "),
+                                       coredata(asset_2_sharp_ratios))
+  
+  # explictly clears pesky rownames
+  rownames(asset_1_sharp_ratio_df) <- c()
+  rownames(asset_2_sharp_ratio_df) <- c()
+  
+  # creating final sharpe ratio table
+  
+  final_sharpe_ratio_table <- merge(asset_1_sharp_ratio_df, asset_2_sharp_ratio_df, by="metric")
+  # drops now-unrelated label from names (drops everything after underscore)
+  names(final_sharpe_ratio_table) <- sub("_.*", "", names(final_sharpe_ratio_table))
+  
+  # making the main sharpe ratio viz
+  
+  sharpe_ratio_plot <- plot_ly(data = final_sharpe_ratio_table, 
+                               x = ~final_sharpe_ratio_table[,2], 
+                               y = ~metric, 
+                               type = 'bar', 
+                               orientation = 'h', 
+                               name = names(final_sharpe_ratio_table[2])) %>%
+    add_trace(x = ~final_sharpe_ratio_table[,3], 
+              name = names(final_sharpe_ratio_table[3])) %>%
+    layout(
+      title = FALSE,
+      xaxis = list(title = "Sharpe Ratio"),
+      yaxis = list(title = NA),
+      margin = list(l = 125),
+      legend = list(orientation = 'h',
+                    x = 0,
+                    y = 1.15)) %>%
+    add_annotations(
+      x= 1,
+      y= 1.13,
+      xref = "paper",
+      yref = "paper",
+      text = "<b>Asset Sharpe Ratio Performance</b>",
+      showarrow = F
+    )
+  
+  return(sharpe_ratio_plot)
+}
+
+
+
+build_asset_returns_plot <- function(asset_returns_list){
+  
+  asset_1_name_str <- sub("_.*", "", names(asset_returns_list[[1]]))
+  asset_2_name_str <- sub("_.*", "", names(asset_returns_list[[2]]))
+  
+  asset_1_returns_df <-  data.frame(date=index(asset_returns_list[[1]]), coredata(asset_returns_list[[1]]))
+  asset_2_returns_df <-  data.frame(date=index(asset_returns_list[[2]]), coredata(asset_returns_list[[2]]))
+  
+  total <- merge(asset_1_returns_df, asset_2_returns_df, by="date")
+  
+  # building the viz
+  # should be its own function 
+  
+  asset_return_plot <- plot_ly(data = total, x = ~date) %>%
+    # asset 1 data plotted
+    add_trace(y = ~total[,2], 
+              name = asset_1_name_str,  
+              type = "scatter", 
+              mode = "lines+markers") %>%
+    # asset 2 data plotted
+    add_trace(y = ~total[,3], 
+              name = asset_2_name_str,  
+              type = "scatter", 
+              mode = "lines+markers") %>%
+    layout(
+      title = FALSE,
+      xaxis = list(type = "date",
+                   title = "Date"),
+      yaxis = list(title = "Price ($)"),
+      legend = list(orientation = 'h',
+                    x = 0,
+                    y = 1.15)) %>%
+    add_annotations(
+      x= 1,
+      y= 1.14,
+      xref = "paper",
+      yref = "paper",
+      text = "<b>Asset Portfolio Performance</b>",
+      showarrow = F
+    )
+  
+}
 
 
 
