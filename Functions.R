@@ -219,10 +219,10 @@ get_sharpe_ratio_plot <- function(asset_returns_list, Rf = 0, p=0.95){
       margin = list(l = 125),
       legend = list(orientation = 'h',
                     x = 0,
-                    y = 1.15)) %>%
+                    y = 1.2)) %>%
     add_annotations(
       x= 1,
-      y= 1.13,
+      y= 1.18,
       xref = "paper",
       yref = "paper",
       text = "<b>Asset Sharpe Ratio Performance</b>",
