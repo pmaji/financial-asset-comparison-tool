@@ -125,8 +125,9 @@ ui <-
                           ),
                           # Show a plot of the generated distribution
                           mainPanel(
-                            plotlyOutput("portfolio_sharpe_chart"),
-                            plotlyOutput("asset_returns_chart")
+                            plotlyOutput("asset_returns_chart"),
+                            br(),
+                            plotlyOutput("portfolio_sharpe_chart", width = "100%", height = 200)
                           )
                         )
                         
