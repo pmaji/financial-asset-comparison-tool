@@ -13,6 +13,7 @@ library(dplyr)
 library(tidyr)
 library(shinythemes)
 library(PerformanceAnalytics)
+library(DT)
 
 
 # source the Functions.R file, where all functions for data importing, cleaning, and vizualization are written
@@ -65,7 +66,9 @@ ui <-
                         ),
                         # Show a plot of the generated distribution
                         mainPanel(
-                          plotlyOutput("portfolio_perf_chart")
+                          plotlyOutput("portfolio_perf_chart"),
+                          br(),
+                          tableOutput("port_summary_table")
                           
                         )
                       )
@@ -166,7 +169,7 @@ server <- function(input, output, session) {
   })
   
   
-  
+  # TAB ONE CALCULATIONS AND VIZUALIZATIONS 
   # 2 step process to create portfolio_perf_chart: create dataset; make viz
   # debounce introduced to throttle time between input change and re-render
   output$portfolio_perf_chart <- 
@@ -186,6 +189,33 @@ server <- function(input, output, session) {
           build_portfolio_perf_chart(base_data)
         }
       ), millis = 1000) # sets wait time for debounce
+  
+  
+  # now building the summary table to go below the portfolio chart
+  
+  output$port_summary_table <- 
+    debounce(
+      renderTable({
+        
+        # creates the dataset to feed the table
+        base_data <- 
+          get_pair_data(
+            asset_1 = input$asset_1a,
+            asset_2 = input$asset_2a, 
+            port_start_date = input$port_dates1a[1],
+            port_end_date = input$port_dates1b[2],
+            initial_investment = input$initial_investment
+          )
+        
+        # builds the actual data table
+        port_summary_table <- build_summary_table(base_data)
+        return(port_summary_table)
+      }), millis = 1000) # sets wait time for debounce
+    
+  
+  
+
+  
   
   # 3 step process to create Sharpe ratio chart: create data; derive ratios; make viz
   output$portfolio_sharpe_chart <-
