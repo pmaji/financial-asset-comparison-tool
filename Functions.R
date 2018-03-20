@@ -106,6 +106,21 @@ get_pair_data <- function(asset_1 = "eth",
   
 }
 
+build_summary_table <- function(portfolio_data){
+  
+  # creating the summary table
+  # creates various vectors 
+  asset_names <- c(names(portfolio_data[2]),names(portfolio_data[3]))
+  asset_raw_price_max <- c(max(portfolio_data[2]),max(portfolio_data[3]))
+  asset_latest_price <- c(as.numeric(tail(portfolio_data[2],1)),as.numeric(tail(portfolio_data[3],1)))
+  asset_portfolio_max_worth <- c(max(portfolio_data[4]),max(portfolio_data[5]))
+  asset_portfolio_latest_worth <- c(as.numeric(tail(portfolio_data[4],1)),as.numeric(tail(portfolio_data[5],1)))
+  # merges vectors into dataframe
+  asset_summary_table <- data.frame(asset_names,asset_raw_price_max,asset_latest_price,asset_portfolio_max_worth,asset_portfolio_latest_worth)
+  return(asset_summary_table)
+  
+}
+
 
 build_portfolio_perf_chart <- function(data){
   
