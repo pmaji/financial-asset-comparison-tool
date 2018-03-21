@@ -14,6 +14,7 @@ library(tidyr)
 library(shinythemes)
 library(PerformanceAnalytics)
 library(DT)
+library(formattable)
 
 
 # source the Functions.R file, where all functions for data importing, cleaning, and vizualization are written
@@ -68,7 +69,7 @@ ui <-
                         mainPanel(
                           plotlyOutput("portfolio_perf_chart"),
                           br(),
-                          tableOutput("port_summary_table")
+                          formattableOutput("port_summary_table")
                           
                         )
                       )
@@ -195,7 +196,7 @@ server <- function(input, output, session) {
   
   output$port_summary_table <- 
     debounce(
-      renderTable({
+      renderFormattable({
         
         # creates the dataset to feed the table
         base_data <- 
@@ -207,14 +208,29 @@ server <- function(input, output, session) {
             initial_investment = input$initial_investment
           )
         
-        # builds the actual data table
+        # builds the actual summary table
         port_summary_table <- build_summary_table(base_data)
-        return(port_summary_table)
+        
+        # adds on all the formattable details
+        formattable(port_summary_table, 
+                    list(
+                      asset_portfolio_rate_of_return = formatter(
+                      "span", style = x ~ style(color = ifelse(x == max(x), "green", "red"))),
+                      asset_portfolio_absolute_profit = formatter(
+                      "span", style = x ~ style(color = ifelse(x == max(x), "green", "red"))),
+                      asset_portfolio_latest_worth = formatter(
+                      "span", style = x ~ style(color = ifelse(x == max(x), "green", "red"))),
+                      asset_portfolio_max_worth = formatter(
+                      "span", style = x ~ style(color = ifelse(x == max(x), "green", "red")))
+                      )
+                    )
+        
+        
       }), millis = 1000) # sets wait time for debounce
-    
   
   
-
+  
+  
   
   
   # 3 step process to create Sharpe ratio chart: create data; derive ratios; make viz
