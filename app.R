@@ -33,7 +33,7 @@ ui <-
              tabPanel(title = "Portfolio",
                       sidebarLayout(
                         sidebarPanel(
-                          h5("Welcome! This app allows you to compare the historical performance of various crypto and non-crypto assets."),
+                          h5("Welcome! This app allows you to compare the historical performance of various crypto and non-crypto assets. If you're new or have questions, click the GitHub link below for instructions on how to use the app."),
                           h6("Code and documentation: ", a(href = "https://github.com/pmaji/crypto-asset-comparison-tool/blob/master/README.md", "here on GitHub")),
                           h6("Enter your initial invesment amount ($):"),
                           numericInput(inputId = "initial_investment", 
@@ -212,16 +212,49 @@ server <- function(input, output, session) {
         port_summary_table <- build_summary_table(base_data)
         
         # adds on all the formattable details
+        # css color names taken from http://www.crockford.com/wrrrld/color.html
         formattable(port_summary_table, 
                     list(
-                      asset_portfolio_rate_of_return = formatter(
-                      "span", style = x ~ style(color = ifelse(x == max(x), "green", "red"))),
-                      asset_portfolio_absolute_profit = formatter(
-                      "span", style = x ~ style(color = ifelse(x == max(x), "green", "red"))),
-                      asset_portfolio_latest_worth = formatter(
-                      "span", style = x ~ style(color = ifelse(x == max(x), "green", "red"))),
-                      asset_portfolio_max_worth = formatter(
-                      "span", style = x ~ style(color = ifelse(x == max(x), "green", "red")))
+                      asset_portfolio_rate_of_return = formatter("span",
+                                                                 style = x ~ style(
+                                                                   display = "inline-block",
+                                                                   direction = "rtl",
+                                                                   "border-radius" = "4px",
+                                                                   "padding-right" = "2px",
+                                                                   "background-color" = csscolor("darkslategray"),
+                                                                   width = percent(proportion(x)),
+                                                                   color = csscolor(gradient(x, "red", "green"))
+                                                                 )),
+                      asset_portfolio_absolute_profit = formatter("span",
+                                                                  style = x ~ style(
+                                                                    display = "inline-block",
+                                                                    direction = "rtl",
+                                                                    "border-radius" = "4px",
+                                                                    "padding-right" = "2px",
+                                                                    "background-color" = csscolor("darkslategray"),
+                                                                    width = percent(proportion(x)),
+                                                                    color = csscolor(gradient(x, "red", "green"))
+                                                                  )),
+                      asset_portfolio_latest_worth = formatter("span",
+                                                               style = x ~ style(
+                                                                 display = "inline-block",
+                                                                 direction = "rtl",
+                                                                 "border-radius" = "4px",
+                                                                 "padding-right" = "2px",
+                                                                 "background-color" = csscolor("darkslategray"),
+                                                                 width = percent(proportion(x)),
+                                                                 color = csscolor(gradient(x, "red", "green"))
+                                                               )),
+                      asset_portfolio_max_worth = formatter("span",
+                                                            style = x ~ style(
+                                                              display = "inline-block",
+                                                              direction = "rtl",
+                                                              "border-radius" = "4px",
+                                                              "padding-right" = "2px",
+                                                              "background-color" = csscolor("darkslategray"),
+                                                              width = percent(proportion(x)),
+                                                              color = csscolor(gradient(x, "red", "green"))
+                                                            ))
                       )
                     )
         
