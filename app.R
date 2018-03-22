@@ -61,8 +61,8 @@ ui <-
                           h6("Choose the date range for which you'd like data below:"),
                           dateRangeInput("port_dates1a",
                                          label = NA, 
-                                         # default date shows past 6 months of data
-                                         start = Sys.Date()-183, 
+                                         # default date shows past 1 year
+                                         start = Sys.Date()-368, 
                                          end = Sys.Date()-3)
                         ),
                         # Show a plot of the generated distribution
@@ -79,7 +79,7 @@ ui <-
              tabPanel(title = "Returns",
                       sidebarLayout(
                         sidebarPanel(
-                          h5("Time for returns"),
+                          h5("This tab focuses on", a(href = "https://www.investopedia.com/terms/r/rateofreturn.asp", "rate of return"), "as well as variations of the", a(href = "https://en.wikipedia.org/wiki/Sharpe_ratio", "Sharpe Ratio"), "--a measure of average return in excess of the risk free rate per unit of volatility."),
                           h6("Use lowercase for crypto, and uppercase for all other:"),
                           # first the UI options to pick the 1st asset to compare:
                           h6("Select 1st asset of interest:"),
@@ -99,20 +99,26 @@ ui <-
                           h6("Choose the date range for which you'd like data below:"),
                           dateRangeInput("port_dates1b",
                                          label = NA, 
-                                         # default date shows past 6 months of data
-                                         start = Sys.Date()-183, 
+                                         # default date shows past 1 year
+                                         start = Sys.Date()-368, 
                                          end = Sys.Date()-3),
-                          h6("Choose the period over which to calculate Sharpe ratio:"),
+                          h6("Choose period over which to calculate returns:"),
                           selectInput("period",
                                       label = NA,
                                       choices = c("daily", "weekly", "monthly", "quaterly", "yearly"),
-                                      selected = "weekly"),
+                                      selected = "monthly"),
+                          h6("Choose risk free rate (in same period of time as returns):"),
+                          h6("(Default 0.01 = 1% risk free rate)"),
+                          # risk free rates at link below; for monthly risk-free rate use 1 month treasury
+                          # https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield
                           numericInput(inputId = "Rf", 
                                        label = NA, 
-                                       value = 0, 
-                                       min = 1, 
-                                       max = NA, 
+                                       value = 0.01, 
+                                       min = -100, 
+                                       max = 100, 
                                        step = 0.001),
+                          h6("Choose confidence level:"),
+                          h6("(Default 0.95 = 95 % confidence level)"),
                           numericInput(inputId = "p", 
                                        label = NA, 
                                        value = 0.95, 
@@ -142,31 +148,31 @@ server <- function(input, output, session) {
   # observe and link asset 1
   observe({
     primary_asseta <- input$asset_1a
-    updateTextInput(session, "asset_1b", value = primary_asseta)
+    updateSelectInput(session, "asset_1b", selected = primary_asseta)
   })
   observe({
     primary_assetb <- input$asset_1b
-    updateTextInput(session, "asset_1a", value = primary_assetb)
+    updateSelectInput(session, "asset_1a", selected = primary_assetb)
   })
   
   # observe and link asset 2
   observe({
     secondary_asseta <- input$asset_2a
-    updateTextInput(session, "asset_2b", value = secondary_asseta)
+    updateSelectInput(session, "asset_2b", selected = secondary_asseta)
   })
   observe({
     secondary_assetb <- input$asset_2b
-    updateTextInput(session, "asset_2a", value = secondary_assetb)
+    updateSelectInput(session, "asset_2a", selected = secondary_assetb)
   })
   
   # observe and link date range
   observe({
     datea <- input$port_dates1a
-    updateTextInput(session, "port_dates1b", value = datea)
+    updateDateRangeInput(session, "port_dates1b", start = datea[1], end = datea[2])
   })
   observe({
     dateb <- input$port_dates1b
-    updateTextInput(session, "port_dates1a", value = dateb)
+    updateDateRangeInput(session, "port_dates1a", start = dateb[1], end = dateb[2])
   })
   
   
@@ -183,7 +189,7 @@ server <- function(input, output, session) {
               asset_1 = input$asset_1a,
               asset_2 = input$asset_2a, 
               port_start_date = input$port_dates1a[1],
-              port_end_date = input$port_dates1b[2],
+              port_end_date = input$port_dates1a[2],
               initial_investment = input$initial_investment
             )
           # builds the actual viz
@@ -204,7 +210,7 @@ server <- function(input, output, session) {
             asset_1 = input$asset_1a,
             asset_2 = input$asset_2a, 
             port_start_date = input$port_dates1a[1],
-            port_end_date = input$port_dates1b[2],
+            port_end_date = input$port_dates1a[2],
             initial_investment = input$initial_investment
           )
         
@@ -276,7 +282,7 @@ server <- function(input, output, session) {
             get_pair_data(
               asset_1 = input$asset_1b,
               asset_2 = input$asset_2b, 
-              port_start_date = input$port_dates1a[1],
+              port_start_date = input$port_dates1b[1],
               port_end_date = input$port_dates1b[2],
               initial_investment = input$initial_investment
             )
@@ -305,7 +311,7 @@ server <- function(input, output, session) {
             get_pair_data(
               asset_1 = input$asset_1b,
               asset_2 = input$asset_2b, 
-              port_start_date = input$port_dates1a[1],
+              port_start_date = input$port_dates1b[1],
               port_end_date = input$port_dates1b[2],
               initial_investment = input$initial_investment
             )
