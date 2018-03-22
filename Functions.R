@@ -111,8 +111,6 @@ build_summary_table <- function(portfolio_data){
   # creating the summary table
   # creates various vectors 
   asset_names <- c(names(portfolio_data[2]),names(portfolio_data[3]))
-  # asset_raw_price_max <- c(max(portfolio_data[2]),max(portfolio_data[3]))
-  # asset_latest_price <- c(as.numeric(tail(portfolio_data[2],1)),as.numeric(tail(portfolio_data[3],1)))
   asset_portfolio_max_worth <- c(max(portfolio_data[4]),max(portfolio_data[5]))
   asset_portfolio_latest_worth <- c(as.numeric(tail(portfolio_data[4],1)),as.numeric(tail(portfolio_data[5],1)))
   asset_portfolio_absolute_profit <- c(as.numeric(tail(portfolio_data[4],1))-as.numeric(head(portfolio_data[4],1)),
@@ -153,16 +151,16 @@ port_perf_plot <- plot_ly(data = port_tbl, x = ~date) %>%
     title = FALSE,
     xaxis = list(type = "date",
                  title = "Date"),
-    yaxis = list(title = "Price ($)"),
+    yaxis = list(title = "Portfolio Value ($)"),
     legend = list(orientation = 'h',
                   x = 0,
                   y = 1.15)) %>%
   add_annotations(
     x= 1,
-    y= 1.13,
+    y= 1.133,
     xref = "paper",
     yref = "paper",
-    text = "<b>Asset Portfolio Performance</b>",
+    text = "<b>Investment Portfolio Performance Comparison</b>",
     showarrow = F
   )
 
@@ -241,10 +239,10 @@ get_sharpe_ratio_plot <- function(asset_returns_list, Rf = 0, p=0.95){
                     y = 1.2)) %>%
     add_annotations(
       x= 1,
-      y= 1.18,
+      y= 1.16,
       xref = "paper",
       yref = "paper",
-      text = "<b>Asset Sharpe Ratio Performance</b>",
+      text = "<b>Asset Sharpe Ratio Comparison</b>",
       showarrow = F
     )
   
@@ -281,16 +279,17 @@ build_asset_returns_plot <- function(asset_returns_list){
       title = FALSE,
       xaxis = list(type = "date",
                    title = "Date"),
-      yaxis = list(title = "Price ($)"),
+      yaxis = list(title = "Return on Investment (%)",
+                   tickformat = "%"),
       legend = list(orientation = 'h',
                     x = 0,
                     y = 1.15)) %>%
     add_annotations(
       x= 1,
-      y= 1.14,
+      y= 1.133,
       xref = "paper",
       yref = "paper",
-      text = "<b>Asset Portfolio Performance</b>",
+      text = "<b>Investment Returns Comparison</b>",
       showarrow = F
     )
   
