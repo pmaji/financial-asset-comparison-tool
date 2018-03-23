@@ -11,7 +11,7 @@ get_pair_data <- function(asset_1 = "eth",
                           port_start_date = Sys.Date()-183, 
                           port_end_date = Sys.Date()-3, 
                           initial_investment=1000){
-
+  
   # Getting the data for asset 1
   # If it's a crypto asset then get it from coinmetrics.io; else get it from yahoo API
   if(asset_1 %in% crypto_list == T){
@@ -126,46 +126,46 @@ build_summary_table <- function(portfolio_data){
 
 build_portfolio_perf_chart <- function(data){
   
-# first the function to build the portfolio chart
-
-port_tbl <- data[,c(1,4:5)]
-# now time to build the Plotly
-
-# grabbing the 2 asset names
-asset_name1 <- sub('_.*', '', names(port_tbl)[2])
-asset_name2 <- sub('_.*', '', names(port_tbl)[3])
-
-
-port_perf_plot <- plot_ly(data = port_tbl, x = ~date) %>%
-  # asset 1 data plotted
-  add_trace(y = ~port_tbl[,2], 
-            name = asset_name1,  
-            type = "scatter", 
-            mode = "lines+markers") %>%
-  # asset 2 data plotted
-  add_trace(y = ~port_tbl[,3], 
-            name = asset_name2,  
-            type = "scatter", 
-            mode = "lines+markers") %>%
-  layout(
-    title = FALSE,
-    xaxis = list(type = "date",
-                 title = "Date"),
-    yaxis = list(title = "Portfolio Value ($)"),
-    legend = list(orientation = 'h',
-                  x = 0,
-                  y = 1.15)) %>%
-  add_annotations(
-    x= 1,
-    y= 1.133,
-    xref = "paper",
-    yref = "paper",
-    text = "<b>Investment Portfolio Performance Comparison</b>",
-    showarrow = F
-  )
-
-return(port_perf_plot)
-
+  # first the function to build the portfolio chart
+  
+  port_tbl <- data[,c(1,4:5)]
+  # now time to build the Plotly
+  
+  # grabbing the 2 asset names
+  asset_name1 <- sub('_.*', '', names(port_tbl)[2])
+  asset_name2 <- sub('_.*', '', names(port_tbl)[3])
+  
+  
+  port_perf_plot <- plot_ly(data = port_tbl, x = ~date) %>%
+    # asset 1 data plotted
+    add_trace(y = ~port_tbl[,2], 
+              name = asset_name1,  
+              type = "scatter", 
+              mode = "lines+markers") %>%
+    # asset 2 data plotted
+    add_trace(y = ~port_tbl[,3], 
+              name = asset_name2,  
+              type = "scatter", 
+              mode = "lines+markers") %>%
+    layout(
+      title = FALSE,
+      xaxis = list(type = "date",
+                   title = "Date"),
+      yaxis = list(title = "Portfolio Value ($)"),
+      legend = list(orientation = 'h',
+                    x = 0,
+                    y = 1.15)) %>%
+    add_annotations(
+      x= 1,
+      y= 1.133,
+      xref = "paper",
+      yref = "paper",
+      text = "<b>Investment Portfolio Performance Comparison</b>",
+      showarrow = F
+    )
+  
+  return(port_perf_plot)
+  
 }
 
 
