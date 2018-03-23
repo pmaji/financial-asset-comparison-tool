@@ -33,7 +33,7 @@ ui <-
              tabPanel(title = "Portfolio",
                       sidebarLayout(
                         sidebarPanel(
-                          h5("Welcome! This app allows you to compare the historical performance of various crypto and non-crypto assets. If you're new or have questions, click the GitHub link below for instructions on how to use the app."),
+                          h5("Welcome! This app allows you to compare the historical performance of various crypto and non-crypto assets. The first tab focuses on portfolio performance, while the second tab focuses on rate of return (both raw and risk-adjusted). If you're new or have questions, click the GitHub link below for instructions on how to use the app."),
                           h6("Code and documentation: ", a(href = "https://github.com/pmaji/crypto-asset-comparison-tool/blob/master/README.md", "here on GitHub")),
                           h6("Enter your initial invesment amount ($):"),
                           numericInput(inputId = "initial_investment", 
@@ -79,7 +79,7 @@ ui <-
              tabPanel(title = "Returns",
                       sidebarLayout(
                         sidebarPanel(
-                          h5("This tab focuses on", a(href = "https://www.investopedia.com/terms/r/rateofreturn.asp", "rate of return"), "as well as variations of the", a(href = "https://en.wikipedia.org/wiki/Sharpe_ratio", "Sharpe Ratio"), "--a measure of average return in excess of the risk free rate per unit of volatility."),
+                          h5("This tab focuses on", a(href = "https://www.investopedia.com/terms/r/rateofreturn.asp", "rate of return,"), "and then, more specifically, the average rate of return in excess of the risk free rate, per unit of volatility, as captured by variations of the", a(href = "https://en.wikipedia.org/wiki/Sharpe_ratio", "Sharpe Ratio")),
                           h6("Use lowercase for crypto, and uppercase for all other:"),
                           # first the UI options to pick the 1st asset to compare:
                           h6("Select 1st asset of interest:"),
@@ -144,37 +144,38 @@ ui <-
 
 server <- function(input, output, session) {
   
+  # FURTHER INVESTIGATION NEEDED HERE AS TO WHY DOESN'T WORK
   # functions to observe changing inputs and constanlty update between tabs
   # observe and link asset 1
-  observe({
-    primary_asseta <- input$asset_1a
-    updateSelectInput(session, "asset_1b", selected = primary_asseta)
-  })
-  observe({
-    primary_assetb <- input$asset_1b
-    updateSelectInput(session, "asset_1a", selected = primary_assetb)
-  })
-  
-  # observe and link asset 2
-  observe({
-    secondary_asseta <- input$asset_2a
-    updateSelectInput(session, "asset_2b", selected = secondary_asseta)
-  })
-  observe({
-    secondary_assetb <- input$asset_2b
-    updateSelectInput(session, "asset_2a", selected = secondary_assetb)
-  })
-  
-  # observe and link date range
-  observe({
-    datea <- input$port_dates1a
-    updateDateRangeInput(session, "port_dates1b", start = datea[1], end = datea[2])
-  })
-  observe({
-    dateb <- input$port_dates1b
-    updateDateRangeInput(session, "port_dates1a", start = dateb[1], end = dateb[2])
-  })
-  
+  # observe({
+  #   primary_asseta <- input$asset_1a
+  #   updateSelectInput(session, "asset_1b", selected = primary_asseta)
+  # })
+  # observe({
+  #   primary_assetb <- input$asset_1b
+  #   updateSelectInput(session, "asset_1a", selected = primary_assetb)
+  # })
+  # 
+  # # observe and link asset 2
+  # observe({
+  #   secondary_asseta <- input$asset_2a
+  #   updateSelectInput(session, "asset_2b", selected = secondary_asseta)
+  # })
+  # observe({
+  #   secondary_assetb <- input$asset_2b
+  #   updateSelectInput(session, "asset_2a", selected = secondary_assetb)
+  # })
+  # 
+  # # observe and link date range
+  # observe({
+  #   datea <- input$port_dates1a
+  #   updateDateRangeInput(session, "port_dates1b", start = datea[1], end = datea[2])
+  # })
+  # observe({
+  #   dateb <- input$port_dates1b
+  #   updateDateRangeInput(session, "port_dates1a", start = dateb[1], end = dateb[2])
+  # })
+  # 
   
   # TAB ONE CALCULATIONS AND VIZUALIZATIONS 
   # 2 step process to create portfolio_perf_chart: create dataset; make viz
@@ -261,8 +262,8 @@ server <- function(input, output, session) {
                                                               width = percent(proportion(x)),
                                                               color = csscolor(gradient(x, "red", "green"))
                                                             ))
-                      )
                     )
+        )
         
         
       }), millis = 1000) # sets wait time for debounce
