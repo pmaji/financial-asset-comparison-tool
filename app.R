@@ -55,7 +55,7 @@ ui <-
                           selectInput(inputId = "asset_2a",
                                       label = NA,
                                       choices = symbol_list, 
-                                      selected = "GOOG", 
+                                      selected = "AMZN", 
                                       multiple = FALSE,
                                       selectize = TRUE),
                           h6("Choose the date range for which you'd like data below:"),
@@ -93,7 +93,7 @@ ui <-
                           selectInput(inputId = "asset_2b",
                                       label = NA,
                                       choices = symbol_list, 
-                                      selected = "GOOG", 
+                                      selected = "AMZN", 
                                       multiple = FALSE,
                                       selectize = TRUE),
                           h6("Choose the date range for which you'd like data below:"),
@@ -175,8 +175,8 @@ server <- function(input, output, session) {
   #   dateb <- input$port_dates1b
   #   updateDateRangeInput(session, "port_dates1a", start = dateb[1], end = dateb[2])
   # })
-  # 
-  
+
+
   # TAB ONE CALCULATIONS AND VIZUALIZATIONS 
   # 2 step process to create portfolio_perf_chart: create dataset; make viz
   # debounce introduced to throttle time between input change and re-render
