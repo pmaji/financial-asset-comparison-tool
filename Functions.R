@@ -143,6 +143,7 @@ build_portfolio_perf_chart <- function(data, port_loess_param = 0.33){
     # asset 1 data plotted
     add_markers(y =~port_tbl[,2],
                 marker = list(color = '#FC9C01'),
+                name = asset_name1,
                 showlegend = FALSE) %>%
     add_lines(y = ~fitted(loess(port_tbl[,2] ~ date_in_numeric_form, span = loess_span_parameter)),
               line = list(color = '#FC9C01'),
@@ -151,6 +152,7 @@ build_portfolio_perf_chart <- function(data, port_loess_param = 0.33){
     # asset 2 data plotted
     add_markers(y =~port_tbl[,3],
                 marker = list(color = '#3498DB'),
+                name = asset_name2,
                 showlegend = FALSE) %>%
     add_lines(y = ~fitted(loess(port_tbl[,3] ~ date_in_numeric_form, span = loess_span_parameter)),
               line = list(color = '#3498DB'),
@@ -283,6 +285,7 @@ asset_return_plot <- plot_ly(data = total, x = ~date) %>%
     # asset 1 data plotted
     add_markers(y =~total[,2],
                   marker = list(color = '#FC9C01'),
+                  name = asset_1_name_str,
                   showlegend = FALSE) %>%  
     add_lines(y = ~fitted(loess(total[,2] ~ date_in_numeric_form, span = loess_span_parameter)),
               line = list(color = '#FC9C01'),
@@ -291,6 +294,7 @@ asset_return_plot <- plot_ly(data = total, x = ~date) %>%
     # asset 2 data plotted
     add_markers(y =~total[,3],
                 marker = list(color = '#3498DB'),
+                name = asset_2_name_str,
                 showlegend = FALSE) %>%  
     add_lines(y = ~fitted(loess(total[,3] ~ date_in_numeric_form, span = loess_span_parameter)),
               line = list(color = '#3498DB'),
