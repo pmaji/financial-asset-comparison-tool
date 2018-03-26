@@ -124,29 +124,38 @@ build_summary_table <- function(portfolio_data){
 }
 
 
-build_portfolio_perf_chart <- function(data){
-  
-  # first the function to build the portfolio chart
+build_portfolio_perf_chart <- function(data, port_loess_param = 0.33){
   
   port_tbl <- data[,c(1,4:5)]
-  # now time to build the Plotly
   
   # grabbing the 2 asset names
   asset_name1 <- sub('_.*', '', names(port_tbl)[2])
   asset_name2 <- sub('_.*', '', names(port_tbl)[3])
   
+  # transforms dates into numeric type so smoothing can be done
+  port_tbl[,1] <- as.Date(port_tbl[,1])
+  date_in_numeric_form <- as.numeric((port_tbl[,1]))
+  # picking smoothing parameter
+  loess_span_parameter <- port_loess_param
   
-  port_perf_plot <- plot_ly(data = port_tbl, x = ~date) %>%
+  # now building the plotly
+  port_perf_plot <- plot_ly(data = port_tbl, x = ~port_tbl[,1]) %>%
     # asset 1 data plotted
-    add_trace(y = ~port_tbl[,2], 
-              name = asset_name1,  
-              type = "scatter", 
-              mode = "lines+markers") %>%
+    add_markers(y =~port_tbl[,2],
+                marker = list(color = '#FC9C01'),
+                showlegend = FALSE) %>%
+    add_lines(y = ~fitted(loess(port_tbl[,2] ~ date_in_numeric_form, span = loess_span_parameter)),
+              line = list(color = '#FC9C01'),
+              name = asset_name1,
+              showlegend = TRUE) %>%
     # asset 2 data plotted
-    add_trace(y = ~port_tbl[,3], 
-              name = asset_name2,  
-              type = "scatter", 
-              mode = "lines+markers") %>%
+    add_markers(y =~port_tbl[,3],
+                marker = list(color = '#3498DB'),
+                showlegend = FALSE) %>%
+    add_lines(y = ~fitted(loess(port_tbl[,3] ~ date_in_numeric_form, span = loess_span_parameter)),
+              line = list(color = '#3498DB'),
+              name = asset_name2,
+              showlegend = TRUE) %>%
     layout(
       title = FALSE,
       xaxis = list(type = "date",
@@ -251,7 +260,7 @@ get_sharpe_ratio_plot <- function(asset_returns_list, Rf = 0, p=0.95){
 
 
 
-build_asset_returns_plot <- function(asset_returns_list){
+build_asset_returns_plot <- function(asset_returns_list, asset_loess_param = 0.75){
   
   asset_1_name_str <- sub("_.*", "", names(asset_returns_list[[1]]))
   asset_2_name_str <- sub("_.*", "", names(asset_returns_list[[2]]))
@@ -262,19 +271,31 @@ build_asset_returns_plot <- function(asset_returns_list){
   total <- merge(asset_1_returns_df, asset_2_returns_df, by="date")
   
   # building the viz
-  # should be its own function 
   
-  asset_return_plot <- plot_ly(data = total, x = ~date) %>%
+  # preparing the data for smoothing
+  total[,1] <- as.Date(total[,1])
+  date_in_numeric_form <- as.numeric((total[,1]))
+  # picking smoothing parameter
+  loess_span_parameter <- asset_loess_param
+  
+  
+asset_return_plot <- plot_ly(data = total, x = ~date) %>%
     # asset 1 data plotted
-    add_trace(y = ~total[,2], 
-              name = asset_1_name_str,  
-              type = "scatter", 
-              mode = "lines+markers") %>%
+    add_markers(y =~total[,2],
+                  marker = list(color = '#FC9C01'),
+                  showlegend = FALSE) %>%  
+    add_lines(y = ~fitted(loess(total[,2] ~ date_in_numeric_form, span = loess_span_parameter)),
+              line = list(color = '#FC9C01'),
+              name = asset_1_name_str,
+              showlegend = TRUE) %>%
     # asset 2 data plotted
-    add_trace(y = ~total[,3], 
-              name = asset_2_name_str,  
-              type = "scatter", 
-              mode = "lines+markers") %>%
+    add_markers(y =~total[,3],
+                marker = list(color = '#3498DB'),
+                showlegend = FALSE) %>%  
+    add_lines(y = ~fitted(loess(total[,3] ~ date_in_numeric_form, span = loess_span_parameter)),
+              line = list(color = '#3498DB'),
+              name = asset_2_name_str,
+              showlegend = TRUE) %>%
     layout(
       title = FALSE,
       xaxis = list(type = "date",
@@ -292,6 +313,8 @@ build_asset_returns_plot <- function(asset_returns_list){
       text = "<b>Investment Returns Comparison</b>",
       showarrow = F
     )
+
+return(asset_return_plot)
   
 }
 
