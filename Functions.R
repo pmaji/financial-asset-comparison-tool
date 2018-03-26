@@ -7,7 +7,7 @@ crypto_list <- c("btc","bch","ltc","eth")
 # Function for fetching data and constructing main portfolio table
 
 get_pair_data <- function(asset_1 = "eth", 
-                          asset_2 = "GOOGL", 
+                          asset_2 = "AMZN", 
                           port_start_date = Sys.Date()-183, 
                           port_end_date = Sys.Date()-3, 
                           initial_investment=1000){
