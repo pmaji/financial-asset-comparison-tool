@@ -63,7 +63,15 @@ ui <-
                                          label = NA, 
                                          # default date shows past 1 year
                                          start = Sys.Date()-368, 
-                                         end = Sys.Date()-3)
+                                         end = Sys.Date()-3),
+                          h6("Choose loess smoothing span parameter for portfolio chart:"),
+                          h6("(Default loess span = 0.33)"),
+                          numericInput(inputId ="port_loess_param",
+                                       label = NA,
+                                       value = 0.33,
+                                       min = 0.01,
+                                       max = 10,
+                                       step = 0.01)
                         ),
                         # Show a plot of the generated distribution
                         mainPanel(
@@ -124,7 +132,15 @@ ui <-
                                        value = 0.95, 
                                        min = 0.01, 
                                        max = 0.99, 
-                                       step = 0.001)
+                                       step = 0.001),
+                          h6("Choose loess smoothing span parameter for returns chart:"),
+                          h6("(Default loess span = 0.75)"),
+                          numericInput(inputId ="asset_loess_param",
+                                       label = NA,
+                                       value = 0.75,
+                                       min = 0.01,
+                                       max = 10,
+                                       step = 0.01)
                         ),
                         # Show a plot of the generated distribution
                         mainPanel(
@@ -194,7 +210,7 @@ server <- function(input, output, session) {
               initial_investment = input$initial_investment
             )
           # builds the actual viz
-          build_portfolio_perf_chart(base_data)
+          build_portfolio_perf_chart(base_data, port_loess_param = input$port_loess_param)
         }
       ), millis = 1000) # sets wait time for debounce
   
@@ -321,7 +337,8 @@ server <- function(input, output, session) {
             portfolio_data = base_data,
             period = input$period)
           # building the retrns ratio viz
-          asset_returns_chart <- build_asset_returns_plot(asset_returns_list)
+          asset_returns_chart <- build_asset_returns_plot(asset_returns_list = asset_returns_list, 
+                                                          asset_loess_param = input$asset_loess_param)
           # output the plot
           asset_returns_chart
           
