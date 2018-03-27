@@ -36,12 +36,15 @@ ui <-
                           h5("Welcome! This app allows you to compare the historical performance of various crypto and non-crypto assets. The first tab focuses on portfolio performance, while the second tab focuses on rate of return (both raw and risk-adjusted). If you're new or have questions, click the GitHub link below for instructions on how to use the app."),
                           h6("Code and documentation: ", a(href = "https://github.com/pmaji/crypto-asset-comparison-tool/blob/master/README.md", "here on GitHub")),
                           h6("Enter your initial invesment amount ($):"),
-                          numericInput(inputId = "initial_investment", 
-                                       label = NA, 
-                                       value = 1000, 
-                                       min = 1, 
-                                       max = NA, 
-                                       step = 1),
+                          textInput(inputId = "initial_investment",
+                                    label = NA,
+                                    value = "1000"),
+                          # numericInput(inputId = "initial_investment", 
+                          #              label = NA, 
+                          #              value = 1000, 
+                          #              min = 1, 
+                          #              max = NA, 
+                          #              step = 1),
                           h6("Use lowercase for crypto, and uppercase for all other:"),
                           # first the UI options to pick the 1st asset to compare:
                           h6("Select 1st asset of interest:"),
@@ -66,12 +69,13 @@ ui <-
                                          end = Sys.Date()-3),
                           h6("Choose loess smoothing span parameter for portfolio chart:"),
                           h6("(Default loess span = 0.33)"),
-                          numericInput(inputId ="port_loess_param",
-                                       label = NA,
-                                       value = 0.33,
-                                       min = 0.01,
-                                       max = 10,
-                                       step = 0.01)
+                          sliderInput(inputId = "port_loess_param",
+                                      label = NA,
+                                      min = 0.1,
+                                      max = 2,
+                                      value = .33,
+                                      step = 0.01,
+                                      animate = FALSE)
                         ),
                         # Show a plot of the generated distribution
                         mainPanel(
@@ -119,28 +123,43 @@ ui <-
                           h6("(Default 0.01 = 1% risk free rate)"),
                           # risk free rates at link below; for monthly risk-free rate use 1 month treasury
                           # https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield
-                          numericInput(inputId = "Rf", 
-                                       label = NA, 
-                                       value = 0.01, 
-                                       min = -100, 
-                                       max = 100, 
-                                       step = 0.001),
+                          sliderInput(inputId = "Rf",
+                                      label = NA,
+                                      min = -0.10,
+                                      max = 0.10,
+                                      value = 0.01,
+                                      step = 0.001,
+                                      animate = FALSE),
+                          # numericInput(inputId = "Rf", 
+                          #              label = NA, 
+                          #              value = 0.01, 
+                          #              min = -100, 
+                          #              max = 100, 
+                          #              step = 0.001),
                           h6("Choose confidence level:"),
                           h6("(Default 0.95 = 95 % confidence level)"),
-                          numericInput(inputId = "p", 
-                                       label = NA, 
-                                       value = 0.95, 
-                                       min = 0.01, 
-                                       max = 0.99, 
-                                       step = 0.001),
+                          sliderInput(inputId = "p",
+                                      label = NA,
+                                      min = 0.1,
+                                      max = 0.99,
+                                      value = 0.95,
+                                      step = 0.01,
+                                      animate = FALSE),
                           h6("Choose loess smoothing span parameter for returns chart:"),
                           h6("(Default loess span = 0.75)"),
-                          numericInput(inputId ="asset_loess_param",
-                                       label = NA,
-                                       value = 0.75,
-                                       min = 0.01,
-                                       max = 10,
-                                       step = 0.01)
+                          sliderInput(inputId = "asset_loess_param",
+                                      label = NA,
+                                      min = 0.1,
+                                      max = 2,
+                                      value = .75,
+                                      step = 0.01,
+                                      animate = FALSE)
+                        #   numericInput(inputId ="asset_loess_param",
+                        #                label = NA,
+                        #                value = 0.75,
+                        #                min = 0.01,
+                        #                max = 10,
+                        #                step = 0.01)
                         ),
                         # Show a plot of the generated distribution
                         mainPanel(
@@ -159,6 +178,11 @@ ui <-
 ####################################
 
 server <- function(input, output, session) {
+  
+  
+  exists_as_number <- function(item) {
+    !is.null(item) && !is.na(item) && is.numeric(item)
+  }
   
   # FURTHER INVESTIGATION NEEDED HERE AS TO WHY DOESN'T WORK
   # functions to observe changing inputs and constanlty update between tabs
@@ -200,17 +224,31 @@ server <- function(input, output, session) {
     debounce(
       renderPlotly(
         {
-          # creates the dataset to feed the viz
-          base_data <- 
-            get_pair_data(
-              asset_1 = input$asset_1a,
-              asset_2 = input$asset_2a, 
-              port_start_date = input$port_dates1a[1],
-              port_end_date = input$port_dates1a[2],
-              initial_investment = input$initial_investment
-            )
-          # builds the actual viz
-          build_portfolio_perf_chart(base_data, port_loess_param = input$port_loess_param)
+          if (exists_as_number(as.numeric(input$initial_investment))) {
+            # creates the dataset to feed the viz
+            base_data <- 
+              get_pair_data(
+                asset_1 = input$asset_1a,
+                asset_2 = input$asset_2a, 
+                port_start_date = input$port_dates1a[1],
+                port_end_date = input$port_dates1a[2],
+                initial_investment = (as.numeric(input$initial_investment))
+              )
+            # builds the actual viz
+            build_portfolio_perf_chart(base_data, port_loess_param = input$port_loess_param)
+          } else {
+            # creates the dataset to feed the viz
+            base_data <- 
+              get_pair_data(
+                asset_1 = input$asset_1a,
+                asset_2 = input$asset_2a, 
+                port_start_date = input$port_dates1a[1],
+                port_end_date = input$port_dates1a[2],
+                initial_investment = (0)
+              )
+            # builds the actual viz
+            build_portfolio_perf_chart(base_data, port_loess_param = input$port_loess_param)
+          }
         }
       ), millis = 1000) # sets wait time for debounce
   
@@ -220,25 +258,45 @@ server <- function(input, output, session) {
   output$port_summary_table <- 
     debounce(
       renderFormattable({
-        
-        # creates the dataset to feed the table
-        base_data <- 
-          get_pair_data(
-            asset_1 = input$asset_1a,
-            asset_2 = input$asset_2a, 
-            port_start_date = input$port_dates1a[1],
-            port_end_date = input$port_dates1a[2],
-            initial_investment = input$initial_investment
-          )
-        
-        # builds the actual summary table
-        port_summary_table <- build_summary_table(base_data)
-        
-        # adds on all the formattable details
-        # css color names taken from http://www.crockford.com/wrrrld/color.html
-        formattable(port_summary_table, 
-                    list(
-                      asset_portfolio_rate_of_return = formatter("span",
+        if (exists_as_number(as.numeric(input$initial_investment))) {
+          # creates the dataset to feed the table
+          base_data <- 
+            get_pair_data(
+              asset_1 = input$asset_1a,
+              asset_2 = input$asset_2a, 
+              port_start_date = input$port_dates1a[1],
+              port_end_date = input$port_dates1a[2],
+              initial_investment = (as.numeric(input$initial_investment))
+            )
+          
+          # builds the actual summary table
+          port_summary_table <- build_summary_table(base_data)
+          
+          # adds on all the formattable details
+          # css color names taken from http://www.crockford.com/wrrrld/color.html
+          formattable(port_summary_table, 
+                      list(
+                        asset_portfolio_rate_of_return = formatter("span",
+                                                                   style = x ~ style(
+                                                                     display = "inline-block",
+                                                                     direction = "rtl",
+                                                                     "border-radius" = "4px",
+                                                                     "padding-right" = "2px",
+                                                                     "background-color" = csscolor("darkslategray"),
+                                                                     width = percent(proportion(x)),
+                                                                     color = csscolor(gradient(x, "red", "green"))
+                                                                   )),
+                        asset_portfolio_absolute_profit = formatter("span",
+                                                                    style = x ~ style(
+                                                                      display = "inline-block",
+                                                                      direction = "rtl",
+                                                                      "border-radius" = "4px",
+                                                                      "padding-right" = "2px",
+                                                                      "background-color" = csscolor("darkslategray"),
+                                                                      width = percent(proportion(x)),
+                                                                      color = csscolor(gradient(x, "red", "green"))
+                                                                    )),
+                        asset_portfolio_latest_worth = formatter("span",
                                                                  style = x ~ style(
                                                                    display = "inline-block",
                                                                    direction = "rtl",
@@ -248,38 +306,80 @@ server <- function(input, output, session) {
                                                                    width = percent(proportion(x)),
                                                                    color = csscolor(gradient(x, "red", "green"))
                                                                  )),
-                      asset_portfolio_absolute_profit = formatter("span",
-                                                                  style = x ~ style(
-                                                                    display = "inline-block",
-                                                                    direction = "rtl",
-                                                                    "border-radius" = "4px",
-                                                                    "padding-right" = "2px",
-                                                                    "background-color" = csscolor("darkslategray"),
-                                                                    width = percent(proportion(x)),
-                                                                    color = csscolor(gradient(x, "red", "green"))
-                                                                  )),
-                      asset_portfolio_latest_worth = formatter("span",
-                                                               style = x ~ style(
-                                                                 display = "inline-block",
-                                                                 direction = "rtl",
-                                                                 "border-radius" = "4px",
-                                                                 "padding-right" = "2px",
-                                                                 "background-color" = csscolor("darkslategray"),
-                                                                 width = percent(proportion(x)),
-                                                                 color = csscolor(gradient(x, "red", "green"))
-                                                               )),
-                      asset_portfolio_max_worth = formatter("span",
-                                                            style = x ~ style(
-                                                              display = "inline-block",
-                                                              direction = "rtl",
-                                                              "border-radius" = "4px",
-                                                              "padding-right" = "2px",
-                                                              "background-color" = csscolor("darkslategray"),
-                                                              width = percent(proportion(x)),
-                                                              color = csscolor(gradient(x, "red", "green"))
-                                                            ))
-                    )
-        )
+                        asset_portfolio_max_worth = formatter("span",
+                                                              style = x ~ style(
+                                                                display = "inline-block",
+                                                                direction = "rtl",
+                                                                "border-radius" = "4px",
+                                                                "padding-right" = "2px",
+                                                                "background-color" = csscolor("darkslategray"),
+                                                                width = percent(proportion(x)),
+                                                                color = csscolor(gradient(x, "red", "green"))
+                                                              ))
+                      )
+          )
+        } else {
+          # creates the dataset to feed the table
+          base_data <- 
+            get_pair_data(
+              asset_1 = input$asset_1a,
+              asset_2 = input$asset_2a, 
+              port_start_date = input$port_dates1a[1],
+              port_end_date = input$port_dates1a[2],
+              initial_investment = (0)
+            )
+          
+          # builds the actual summary table
+          port_summary_table <- build_summary_table(base_data)
+          
+          # adds on all the formattable details
+          # css color names taken from http://www.crockford.com/wrrrld/color.html
+          formattable(port_summary_table, 
+                      list(
+                        asset_portfolio_rate_of_return = formatter("span",
+                                                                   style = x ~ style(
+                                                                     display = "inline-block",
+                                                                     direction = "rtl",
+                                                                     "border-radius" = "4px",
+                                                                     "padding-right" = "2px",
+                                                                     "background-color" = csscolor("darkslategray"),
+                                                                     width = percent(proportion(x)),
+                                                                     color = csscolor(gradient(x, "red", "green"))
+                                                                   )),
+                        asset_portfolio_absolute_profit = formatter("span",
+                                                                    style = x ~ style(
+                                                                      display = "inline-block",
+                                                                      direction = "rtl",
+                                                                      "border-radius" = "4px",
+                                                                      "padding-right" = "2px",
+                                                                      "background-color" = csscolor("darkslategray"),
+                                                                      width = percent(proportion(x)),
+                                                                      color = csscolor(gradient(x, "red", "green"))
+                                                                    )),
+                        asset_portfolio_latest_worth = formatter("span",
+                                                                 style = x ~ style(
+                                                                   display = "inline-block",
+                                                                   direction = "rtl",
+                                                                   "border-radius" = "4px",
+                                                                   "padding-right" = "2px",
+                                                                   "background-color" = csscolor("darkslategray"),
+                                                                   width = percent(proportion(x)),
+                                                                   color = csscolor(gradient(x, "red", "green"))
+                                                                 )),
+                        asset_portfolio_max_worth = formatter("span",
+                                                              style = x ~ style(
+                                                                display = "inline-block",
+                                                                direction = "rtl",
+                                                                "border-radius" = "4px",
+                                                                "padding-right" = "2px",
+                                                                "background-color" = csscolor("darkslategray"),
+                                                                width = percent(proportion(x)),
+                                                                color = csscolor(gradient(x, "red", "green"))
+                                                              ))
+                      )
+          )
+        }
+        
         
         
       }), millis = 1000) # sets wait time for debounce
@@ -300,8 +400,7 @@ server <- function(input, output, session) {
               asset_1 = input$asset_1b,
               asset_2 = input$asset_2b, 
               port_start_date = input$port_dates1b[1],
-              port_end_date = input$port_dates1b[2],
-              initial_investment = input$initial_investment
+              port_end_date = input$port_dates1b[2]
             )
           # builds the altered dataset
           asset_returns_list <- get_portfolio_returns(
@@ -329,8 +428,7 @@ server <- function(input, output, session) {
               asset_1 = input$asset_1b,
               asset_2 = input$asset_2b, 
               port_start_date = input$port_dates1b[1],
-              port_end_date = input$port_dates1b[2],
-              initial_investment = input$initial_investment
+              port_end_date = input$port_dates1b[2]
             )
           # builds the altered dataset
           asset_returns_list <- get_portfolio_returns(
