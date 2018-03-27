@@ -237,9 +237,11 @@ get_sharpe_ratio_plot <- function(asset_returns_list, Rf = 0, p=0.95){
                                y = ~metric, 
                                type = 'bar', 
                                orientation = 'h', 
-                               name = names(final_sharpe_ratio_table[2])) %>%
+                               name = names(final_sharpe_ratio_table[2]),
+                               marker = list(color = '#FC9C01')) %>%
     add_trace(x = ~final_sharpe_ratio_table[,3], 
-              name = names(final_sharpe_ratio_table[3])) %>%
+              name = names(final_sharpe_ratio_table[3]),
+              marker = list(color = '#3498DB')) %>%
     layout(
       title = FALSE,
       xaxis = list(title = "Sharpe Ratio"),
