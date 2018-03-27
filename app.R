@@ -35,16 +35,10 @@ ui <-
                         sidebarPanel(
                           h5("Welcome! This app allows you to compare the historical performance of various crypto and non-crypto assets. The first tab focuses on portfolio performance, while the second tab focuses on rate of return (both raw and risk-adjusted). If you're new or have questions, click the GitHub link below for instructions on how to use the app."),
                           h6("Code and documentation: ", a(href = "https://github.com/pmaji/crypto-asset-comparison-tool/blob/master/README.md", "here on GitHub")),
-                          h6("Enter your initial invesment amount ($):"),
+                          h6("Enter your initial investment amount ($):"),
                           textInput(inputId = "initial_investment",
                                     label = NA,
                                     value = "1000"),
-                          # numericInput(inputId = "initial_investment", 
-                          #              label = NA, 
-                          #              value = 1000, 
-                          #              min = 1, 
-                          #              max = NA, 
-                          #              step = 1),
                           h6("Use lowercase for crypto, and uppercase for all other:"),
                           # first the UI options to pick the 1st asset to compare:
                           h6("Select 1st asset of interest:"),
@@ -79,7 +73,7 @@ ui <-
                         ),
                         # Show a plot of the generated distribution
                         mainPanel(
-                          plotlyOutput("portfolio_perf_chart"),
+                          plotlyOutput("portfolio_perf_chart", width = "100%", height = 500),
                           br(),
                           formattableOutput("port_summary_table")
                           
