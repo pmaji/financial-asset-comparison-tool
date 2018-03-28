@@ -266,11 +266,18 @@ server <- function(input, output, session) {
           # builds the actual summary table
           port_summary_table <- build_summary_table(base_data)
           
+          
+          colnames(port_summary_table) <- c("Asset Names",
+                              "Asset Portfolio Rate of Return",
+                              "Asset Portfolio Absolute Profit",
+                              "Asset Portfolio Latest Worth",
+                              "Asset Portfolio Max Worth")
+          
           # adds on all the formattable details
           # css color names taken from http://www.crockford.com/wrrrld/color.html
           formattable(port_summary_table, 
                       list(
-                        asset_portfolio_rate_of_return = formatter("span",
+                        "Asset Portfolio Rate of Return" = formatter("span",
                                                                    style = x ~ style(
                                                                      display = "inline-block",
                                                                      direction = "rtl",
@@ -280,7 +287,7 @@ server <- function(input, output, session) {
                                                                      width = percent(proportion(x)),
                                                                      color = csscolor(gradient(x, "red", "green"))
                                                                    )),
-                        asset_portfolio_absolute_profit = formatter("span",
+                        "Asset Portfolio Absolute Profit" = formatter("span",
                                                                     style = x ~ style(
                                                                       display = "inline-block",
                                                                       direction = "rtl",
@@ -290,7 +297,7 @@ server <- function(input, output, session) {
                                                                       width = percent(proportion(x)),
                                                                       color = csscolor(gradient(x, "red", "green"))
                                                                     )),
-                        asset_portfolio_latest_worth = formatter("span",
+                        "Asset Portfolio Latest Worth" = formatter("span",
                                                                  style = x ~ style(
                                                                    display = "inline-block",
                                                                    direction = "rtl",
@@ -300,7 +307,7 @@ server <- function(input, output, session) {
                                                                    width = percent(proportion(x)),
                                                                    color = csscolor(gradient(x, "red", "green"))
                                                                  )),
-                        asset_portfolio_max_worth = formatter("span",
+                        "Asset Portfolio Max Worth" = formatter("span",
                                                               style = x ~ style(
                                                                 display = "inline-block",
                                                                 direction = "rtl",
@@ -326,11 +333,37 @@ server <- function(input, output, session) {
           # builds the actual summary table
           port_summary_table <- build_summary_table(base_data)
           
+          colnames(port_summary_table) <- c("Asset Names",
+                                            "Asset Portfolio Rate of Return",
+                                            "Asset Portfolio Absolute Profit",
+                                            "Asset Portfolio Latest Worth",
+                                            "Asset Portfolio Max Worth")
+          
           # adds on all the formattable details
           # css color names taken from http://www.crockford.com/wrrrld/color.html
           formattable(port_summary_table, 
                       list(
-                        asset_portfolio_rate_of_return = formatter("span",
+                        "Asset Portfolio Rate of Return" = formatter("span",
+                                                                     style = x ~ style(
+                                                                       display = "inline-block",
+                                                                       direction = "rtl",
+                                                                       "border-radius" = "4px",
+                                                                       "padding-right" = "2px",
+                                                                       "background-color" = csscolor("darkslategray"),
+                                                                       width = percent(proportion(x)),
+                                                                       color = csscolor(gradient(x, "red", "green"))
+                                                                     )),
+                        "Asset Portfolio Absolute Profit" = formatter("span",
+                                                                      style = x ~ style(
+                                                                        display = "inline-block",
+                                                                        direction = "rtl",
+                                                                        "border-radius" = "4px",
+                                                                        "padding-right" = "2px",
+                                                                        "background-color" = csscolor("darkslategray"),
+                                                                        width = percent(proportion(x)),
+                                                                        color = csscolor(gradient(x, "red", "green"))
+                                                                      )),
+                        "Asset Portfolio Latest Worth" = formatter("span",
                                                                    style = x ~ style(
                                                                      display = "inline-block",
                                                                      direction = "rtl",
@@ -340,36 +373,16 @@ server <- function(input, output, session) {
                                                                      width = percent(proportion(x)),
                                                                      color = csscolor(gradient(x, "red", "green"))
                                                                    )),
-                        asset_portfolio_absolute_profit = formatter("span",
-                                                                    style = x ~ style(
-                                                                      display = "inline-block",
-                                                                      direction = "rtl",
-                                                                      "border-radius" = "4px",
-                                                                      "padding-right" = "2px",
-                                                                      "background-color" = csscolor("darkslategray"),
-                                                                      width = percent(proportion(x)),
-                                                                      color = csscolor(gradient(x, "red", "green"))
-                                                                    )),
-                        asset_portfolio_latest_worth = formatter("span",
-                                                                 style = x ~ style(
-                                                                   display = "inline-block",
-                                                                   direction = "rtl",
-                                                                   "border-radius" = "4px",
-                                                                   "padding-right" = "2px",
-                                                                   "background-color" = csscolor("darkslategray"),
-                                                                   width = percent(proportion(x)),
-                                                                   color = csscolor(gradient(x, "red", "green"))
-                                                                 )),
-                        asset_portfolio_max_worth = formatter("span",
-                                                              style = x ~ style(
-                                                                display = "inline-block",
-                                                                direction = "rtl",
-                                                                "border-radius" = "4px",
-                                                                "padding-right" = "2px",
-                                                                "background-color" = csscolor("darkslategray"),
-                                                                width = percent(proportion(x)),
-                                                                color = csscolor(gradient(x, "red", "green"))
-                                                              ))
+                        "Asset Portfolio Max Worth" = formatter("span",
+                                                                style = x ~ style(
+                                                                  display = "inline-block",
+                                                                  direction = "rtl",
+                                                                  "border-radius" = "4px",
+                                                                  "padding-right" = "2px",
+                                                                  "background-color" = csscolor("darkslategray"),
+                                                                  width = percent(proportion(x)),
+                                                                  color = csscolor(gradient(x, "red", "green"))
+                                                                ))
                       )
           )
         }
