@@ -283,12 +283,12 @@ build_asset_returns_plot <- function(asset_returns_list, asset_loess_param = 0.7
   loess_span_parameter <- asset_loess_param
   
   
-asset_return_plot <- plot_ly(data = total, x = ~date) %>%
+  asset_return_plot <- plot_ly(data = total, x = ~date) %>%
     # asset 1 data plotted
     add_markers(y =~total[,2],
-                  marker = list(color = '#FC9C01'),
-                  name = asset_1_name_str,
-                  showlegend = FALSE) %>%  
+                marker = list(color = '#FC9C01'),
+                name = asset_1_name_str,
+                showlegend = FALSE) %>%  
     add_lines(y = ~fitted(loess(total[,2] ~ date_in_numeric_form, span = loess_span_parameter)),
               line = list(color = '#FC9C01'),
               name = asset_1_name_str,
@@ -319,8 +319,8 @@ asset_return_plot <- plot_ly(data = total, x = ~date) %>%
       text = "<b>Investment Returns Comparison</b>",
       showarrow = F
     )
-
-return(asset_return_plot)
+  
+  return(asset_return_plot)
   
 }
 
