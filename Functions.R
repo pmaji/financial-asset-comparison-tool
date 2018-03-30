@@ -1,7 +1,7 @@
 # Functions file to be sourced within app later
 
-symbol_list <- read.csv(file="CSVs/master.csv", colClasses=c("NULL",NA))
-symbol_list <- symbol_list[!(is.na(symbol_list$Symbol) | symbol_list$Symbol==""), ]
+symbol_list_initial <- read.csv(file="CSVs/master.csv", colClasses=c("NULL",NA))
+symbol_list <- symbol_list_initial[!(is.na(symbol_list_initial$Symbol) | symbol_list_initial$Symbol==""), ]
 crypto_list <- c("btc","bch","ltc","eth")
 
 # Function for fetching data and constructing main portfolio table
@@ -119,6 +119,11 @@ build_summary_table <- function(portfolio_data){
                                       ((as.numeric(tail(portfolio_data[5],1))-as.numeric(head(portfolio_data[5],1)))/as.numeric(head(portfolio_data[5],1)))*100)
   # merges vectors into dataframe
   asset_summary_table <- data.frame(asset_names,asset_portfolio_max_worth,asset_portfolio_latest_worth, asset_portfolio_absolute_profit, asset_portfolio_rate_of_return)
+  colnames(asset_summary_table) <- c("Asset Names",
+                                    "Asset Portfolio Max Worth",
+                                    "Asset Portfolio Latest Worth",
+                                    "Asset Portfolio Absolute Profit",
+                                    "Asset Portfolio Rate of Return")
   return(asset_summary_table)
   
 }
@@ -171,7 +176,8 @@ build_portfolio_perf_chart <- function(data, port_loess_param = 0.33){
       y= 1.133,
       xref = "paper",
       yref = "paper",
-      text = "<b>Investment Portfolio Performance Comparison</b>",
+      text = "",
+      # text = "<b>Investment Portfolio Performance Comparison</b>",
       showarrow = F
     )
   
@@ -255,7 +261,7 @@ get_sharpe_ratio_plot <- function(asset_returns_list, Rf = 0, p=0.95){
       y= 1.16,
       xref = "paper",
       yref = "paper",
-      text = "<b>Asset Sharpe Ratio Comparison</b>",
+      text = "",
       showarrow = F
     )
   
@@ -316,7 +322,7 @@ build_asset_returns_plot <- function(asset_returns_list, asset_loess_param = 0.7
       y= 1.133,
       xref = "paper",
       yref = "paper",
-      text = "<b>Investment Returns Comparison</b>",
+      text = "",
       showarrow = F
     )
   
