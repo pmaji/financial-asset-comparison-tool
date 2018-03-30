@@ -18,7 +18,7 @@ library(formattable)
 library(shinydashboard)
 
 
-# source the Functions.R file, where all functions for data importing, cleaning, and vizualization are written
+# source the Functions.R file, where all main functions are stored
 source("Functions.R")
 
 
@@ -100,32 +100,29 @@ ui <- dashboardPage(
         title = "Portfolio Performance Inputs",
         status= "primary",
         solidHeader = TRUE,
-        br(), 
-        "Choose loess smoothing span parameter for portfolio chart:",
-        br(),
-        "(Default loess span = 0.33)",
-        br(),
-        br(),
+        h5("This box focuses on portfolio value, i.e., how much an initial investment of the amount specified below (in USD) would be worth over time, given price fluctuations."),
         
-        sliderInput(
-          inputId = "port_loess_param",
-          label = NA,
-          min = 0.1,
-          max = 2,
-          value = .33,
-          step = 0.01,
-          animate = FALSE
-          ),
-        
-        hr(),
-
         textInput(
           inputId = "initial_investment",
           label = "Enter your initial investment amount ($):",
           value = "1000"),
         
-        br(),
-        # submitButton("Update View", icon("refresh")),
+        hr(),
+        
+        h5("The slider below modifies the", a(href = "https://stats.stackexchange.com/questions/2002/how-do-i-decide-what-span-to-use-in-loess-regression-in-r", "smoothing parameter"), "used in the", a(href = "https://en.wikipedia.org/wiki/Local_regression", "LOESS function"), "that produces the lines on the scatterplot."),
+        
+        sliderInput(
+          inputId = "port_loess_param",
+          label = "Choose smoothing parameter for portfolio chart:",
+          min = 0.1,
+          max = 2,
+          value = .33,
+          step = 0.01,
+          animate = FALSE
+        ),
+        
+        hr(),
+        h5("The table below provides metrics by which we can compare the portfolios. For each column, the asset that performed best by that metric is colored green."),
         
         height = 500, 
         width = 4
@@ -161,25 +158,22 @@ ui <- dashboardPage(
         title = "Investment Returns Inputs",
         status= "success",
         solidHeader = TRUE,
-        h5("This tab focuses on", a(href = "https://www.investopedia.com/terms/r/rateofreturn.asp", "rate of return,"), "and then, more specifically, the average rate of return in excess of the risk free rate, per unit of volatility, as captured by variations of the", a(href = "https://en.wikipedia.org/wiki/Sharpe_ratio", "Sharpe Ratio")),
-        hr(),
-        "Choose period over which to calculate returns:",
-        br(),
+        h5("This box focuses on", a(href = "https://www.investopedia.com/terms/r/rateofreturn.asp", "rate of return"), "calculated at the level of detail specified below."),
         
         selectInput(
           "period",
-          label = NA,
+          label = "Choose period over which to calculate returns:",
           choices = c("daily", "weekly", "monthly", "quaterly", "yearly"),
           selected = "weekly"
           ),
+        hr(),
+        
+        h5("The default smoothing parameter for the returns chart is slightly higher than the default for the portfolio performance chart given that returns data are generally aggregated."),
         br(),
-        "Choose loess smoothing span parameter for returns chart:",
-        br(),
-        "(Default loess span = 0.75)",
         
         sliderInput(
           inputId = "asset_loess_param",
-          label = NA,
+          label = "Choose smoothing parameter for returns chart:",
           min = 0.1,
           max = 2,
           value = .75,
@@ -208,10 +202,7 @@ ui <- dashboardPage(
         title = "Variance-Adjusted Returns Inputs",
         status= "warning",
         solidHeader = TRUE,
-        br(),
-        "Choose risk free rate (in same period of time as returns):",
-        br(),
-        "(Default 0.01 = 1% risk free rate)",
+        h5("This box focuses more specifically on the average rate of return in excess of the", a(href = "https://www.investopedia.com/terms/r/risk-freerate.asp", "risk free rate"), "per unit of volatility, as captured by variations of the", a(href = "https://en.wikipedia.org/wiki/Sharpe_ratio", "Sharpe Ratio."), "Be sure your chosen risk free rate matches up with your selected time period. Default is 30 basis points for the weekly risk free rate."),
         br(),
         br(),
   
@@ -219,7 +210,7 @@ ui <- dashboardPage(
         # https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield
         sliderInput(
           inputId = "Rf",
-          label = NA,
+          label = "Choose risk free rate (in decimal form)",
           min = -0.10,
           max = 0.10,
           value = (0.01/4),
@@ -228,15 +219,11 @@ ui <- dashboardPage(
         ),
         
         hr(),
-        "Choose confidence level:",
-        br(),
-        "(Default 0.95 = 95 % confidence level)",
-        br(),
-        br(),
+        h5("The confidence level chosen is used in the", a(href = "https://cran.r-project.org/web/packages/SharpeR/vignettes/SharpeRatio.pdf", "Sharpe Ratio calculation.")),
         
         sliderInput(
           inputId = "p",
-          label = NA,
+          label = "Choose desired confidence level in decimal form:",
           min = 0.1,
           max = 0.99,
           value = 0.95,
