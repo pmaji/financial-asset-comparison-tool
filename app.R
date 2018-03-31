@@ -39,12 +39,22 @@ ui <- dashboardPage(
     width = 300,
     sidebarMenu(
       menuItem(
-        "Source code for app",
-        href="https://github.com/pmaji/crypto-asset-comparison-tool/blob/master/README.md", 
+        "Walkthrough of how the app works",
+        href="https://github.com/pmaji/crypto-asset-comparison-tool/blob/master/README.md",
+        # https://rstudio.github.io/shinydashboard/appearance.html#icons for more icons
         icon=icon("github")
         ),
-      
-      br(),
+      menuItem(
+        "Report a bug or make a request",
+        href="https://github.com/pmaji/crypto-asset-comparison-tool/issues", 
+        icon=icon("comment")
+      ),
+      menuItem(
+        "Examine the code behind the app",
+        href="https://github.com/pmaji/crypto-asset-comparison-tool", 
+        icon=icon("code")
+      ),
+
       hr(),
       
       div(
@@ -219,7 +229,7 @@ ui <- dashboardPage(
         ),
         
         hr(),
-        h5("The confidence level chosen is used in the", a(href = "https://cran.r-project.org/web/packages/SharpeR/vignettes/SharpeRatio.pdf", "Sharpe Ratio calculation.")),
+        h5("The confidence level chosen is used in the", a(href = "https://cran.r-project.org/web/packages/SharpeR/vignettes/SharpeRatio.pdf", "Sharpe Ratio calculations.")),
         
         sliderInput(
           inputId = "p",
