@@ -400,40 +400,41 @@ server <- function(input, output, session) {
       millis = 2000) # sets wait time for debounce
   
   
-  react_build_calendar_data <- reactive({
-    # reshapes the data for a summary view
-    return(
-      build_calendar_data(base_data = react_base_data())
-    )
-    
-  })
+  # will maybe come back to this later if I want to spend the time trouble shooting the stupid axis clipping
+  # react_build_calendar_data <- reactive({
+  #   # reshapes the data for a summary view
+  #   return(
+  #     build_calendar_data(base_data = react_base_data())
+  #   )
+  #   
+  # })
   
-  output$calendar_assest1 <- 
-    debounce(
-      renderPlotly({
-        calendar_data <- react_build_calendar_data()
-        
-        plot1 <- ggplot(calendar_data, aes(monthweek, weekdayf, fill = calendar_data[,2])) + 
-          geom_tile(colour = "white") + facet_grid(year~monthf) + scale_fill_gradient(low="red", high="yellow", name = names(calendar_data)[2]) +
-          xlab("Week of Month") + ylab("") 
-        
-        ggplotly(plot1)
-        
-      }), 
-      millis = 2000) # sets wait time for debounce
-  
-  output$calendar_assest2 <- 
-    debounce(
-      renderPlotly({
-        calendar_data <- react_build_calendar_data()
-        
-        plot2 <- ggplot(calendar_data, aes(monthweek, weekdayf, fill = calendar_data[,3])) + 
-          geom_tile(colour = "white") + facet_grid(year~monthf) + scale_fill_gradient(low="red", high="yellow", name = names(calendar_data)[3]) +
-          xlab("Week of Month") + ylab("") 
-        
-        ggplotly(plot2)
-      }), 
-      millis = 2000) # sets wait time for debounce
+  # output$calendar_assest1 <- 
+  #   debounce(
+  #     renderPlotly({
+  #       calendar_data <- react_build_calendar_data()
+  #       
+  #       plot1 <- ggplot(calendar_data, aes(monthweek, weekdayf, fill = calendar_data[,2])) + 
+  #         geom_tile(colour = "white") + facet_grid(year~monthf) + scale_fill_gradient(low="red", high="yellow", name = names(calendar_data)[2]) +
+  #         xlab("Week of Month") + ylab("") 
+  #       
+  #       ggplotly(plot1)
+  #       
+  #     }), 
+  #     millis = 2000) # sets wait time for debounce
+  # 
+  # output$calendar_assest2 <- 
+  #   debounce(
+  #     renderPlotly({
+  #       calendar_data <- react_build_calendar_data()
+  #       
+  #       plot2 <- ggplot(calendar_data, aes(monthweek, weekdayf, fill = calendar_data[,3])) + 
+  #         geom_tile(colour = "white") + facet_grid(year~monthf) + scale_fill_gradient(low="red", high="yellow", name = names(calendar_data)[3]) +
+  #         xlab("Week of Month") + ylab("") 
+  #       
+  #       ggplotly(plot2)
+  #     }), 
+  #     millis = 2000) # sets wait time for debounce
   
   
   output$port_summary_table <- 
