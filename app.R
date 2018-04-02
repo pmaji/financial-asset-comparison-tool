@@ -49,7 +49,7 @@ ui <- dashboardPage(
         href="https://github.com/pmaji/crypto-asset-comparison-tool/blob/master/README.md",
         # https://rstudio.github.io/shinydashboard/appearance.html#icons for more icons
         icon=icon("github")
-        ),
+      ),
       menuItem(
         "Report a bug or make a request",
         href="https://github.com/pmaji/crypto-asset-comparison-tool/issues", 
@@ -60,7 +60,7 @@ ui <- dashboardPage(
         href="https://github.com/pmaji/crypto-asset-comparison-tool", 
         icon=icon("code")
       ),
-
+      
       hr(),
       
       div(
@@ -68,7 +68,7 @@ ui <- dashboardPage(
         "Use lowercase to input crypto assets.",
         br(),
         "Use uppercase for all others."
-        ),
+      ),
       
       # first the UI options to pick the 1st asset to compare:
       br(),
@@ -102,7 +102,7 @@ ui <- dashboardPage(
   
   dashboardBody(
     
-      # 1st row of boxes
+    # 1st row of boxes
     fluidRow(
       box(
         title="Portfolio Performance Chart", 
@@ -112,7 +112,7 @@ ui <- dashboardPage(
         plotlyOutput(outputId = "portfolio_perf_chart"), 
         height=500, 
         width=8
-        ),
+      ),
       box(
         title = "Portfolio Performance Inputs",
         status= "primary",
@@ -143,10 +143,10 @@ ui <- dashboardPage(
         
         height = 500, 
         width = 4
-        )
-      ),
+      )
+    ),
     
-  
+    
     # 2nd row of boxes  
     fluidRow(
       # formattable test
@@ -160,26 +160,27 @@ ui <- dashboardPage(
       )
     ),
     
-    # calendar row of boxes
-    fluidRow(
-      box(
-        title="Asset 1 Price Calendar",
-        status="primary",
-        solidHeader = TRUE,
-        plotlyOutput("calendar_assest1"),
-        height = 500,
-        width = 12
-      ),
-      box(
-        title="Asset 2 Price Calendar",
-        status="primary",
-        solidHeader = TRUE,
-        plotlyOutput("calendar_assest2"),
-        height = 500,
-        width = 12
-      )
-    ),
-      
+    # # calendar row of boxes
+    # maybe will come back to the heatmaps later on, for now it's too big of headache
+    # fluidRow(
+    #   box(
+    #     title=(paste0(input$asset_1a, " Price Calendar")),
+    #     status="primary",
+    #     solidHeader = TRUE,
+    #     plotlyOutput("calendar_assest1"),
+    #     height = 500,
+    #     width = 12
+    #   ),
+    #   box(
+    #     title=(paste0(input$asset_2a, " Price Calendar")),
+    #     status="primary",
+    #     solidHeader = TRUE,
+    #     plotlyOutput("calendar_assest2"),
+    #     height = 500,
+    #     width = 12
+    #   )
+    # ),
+    
     # 3rd row of boxes
     fluidRow(
       box(
@@ -190,7 +191,7 @@ ui <- dashboardPage(
         plotlyOutput("asset_returns_chart"), 
         height=500, 
         width=8
-        ),
+      ),
       box(
         title = "Investment Returns Inputs",
         status= "success",
@@ -202,7 +203,7 @@ ui <- dashboardPage(
           label = "Choose period over which to calculate returns:",
           choices = c("daily", "weekly", "monthly", "quaterly", "yearly"),
           selected = "weekly"
-          ),
+        ),
         hr(),
         
         h5("The default smoothing parameter for the returns chart is slightly higher than the default for the portfolio performance chart given that returns data are generally aggregated."),
@@ -222,8 +223,8 @@ ui <- dashboardPage(
         width = 4
       )
     ),
-      
-
+    
+    
     # 4th row of boxes
     fluidRow(
       box(
@@ -234,7 +235,7 @@ ui <- dashboardPage(
         plotlyOutput("portfolio_sharpe_chart"), 
         height=500, 
         width=8
-        ),
+      ),
       box(
         title = "Variance-Adjusted Returns Inputs",
         status= "warning",
@@ -242,7 +243,7 @@ ui <- dashboardPage(
         h5("This box focuses more specifically on the average rate of return in excess of the", a(href = "https://www.investopedia.com/terms/r/risk-freerate.asp", "risk free rate"), "per unit of volatility, as captured by variations of the", a(href = "https://en.wikipedia.org/wiki/Sharpe_ratio", "Sharpe Ratio."), "Be sure your chosen risk free rate matches up with your selected time period. Default is 30 basis points for the weekly risk free rate."),
         br(),
         br(),
-  
+        
         # risk free rates at link below; for monthly risk-free rate use 1 month treasury
         # https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield
         sliderInput(
@@ -302,8 +303,8 @@ server <- function(input, output, session) {
           port_start_date = input$port_dates1a[1],
           port_end_date = input$port_dates1a[2],
           initial_investment = (as.numeric(input$initial_investment))
-          )
         )
+      )
     } else {
       return(
         get_pair_data(
@@ -388,14 +389,14 @@ server <- function(input, output, session) {
   })
   
   
-
+  
   # Now the reactives for the actual vizualizations
   output$portfolio_perf_chart <- 
     debounce(
       renderPlotly({
         data <- react_base_data()
         build_portfolio_perf_chart(data, port_loess_param = input$port_loess_param)
-        }), 
+      }), 
       millis = 2000) # sets wait time for debounce
   
   
@@ -417,7 +418,7 @@ server <- function(input, output, session) {
           xlab("Week of Month") + ylab("") 
         
         ggplotly(plot1)
-          
+        
       }), 
       millis = 2000) # sets wait time for debounce
   
@@ -438,13 +439,13 @@ server <- function(input, output, session) {
   output$port_summary_table <- 
     debounce(
       renderFormattable({
-          # adds on all the formattable details
-          # css color names taken from http://www.crockford.com/wrrrld/color.html
+        # adds on all the formattable details
+        # css color names taken from http://www.crockford.com/wrrrld/color.html
         react_formattable()
         
       }), millis = 2000) # sets wait time for debounce
   
-
+  
   output$portfolio_sharpe_chart <-
     debounce(
       renderPlotly(
@@ -454,7 +455,7 @@ server <- function(input, output, session) {
             asset_returns_list = react_asset_returns_list(),
             Rf = input$Rf,
             p = input$p
-            )
+          )
         }
       ), millis = 2000)
   
