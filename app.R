@@ -16,6 +16,12 @@ library(PerformanceAnalytics)
 library(DT)
 library(formattable)
 library(shinydashboard)
+library(ggplot2)
+library(reshape2)
+library(plyr)
+library(scales)
+library(lubridate)
+
 
 
 # source the Functions.R file, where all main functions are stored
@@ -105,7 +111,8 @@ ui <- dashboardPage(
         solidHeader = TRUE,
         plotlyOutput(outputId = "portfolio_perf_chart"), 
         height=500, 
-        width=8),
+        width=8
+        ),
       box(
         title = "Portfolio Performance Inputs",
         status= "primary",
@@ -137,7 +144,6 @@ ui <- dashboardPage(
         height = 500, 
         width = 4
         )
-      
       ),
     
   
@@ -153,6 +159,26 @@ ui <- dashboardPage(
         width = 12
       )
     ),
+    
+    # calendar row of boxes
+    fluidRow(
+      box(
+        title="Asset 1 Price Calendar",
+        status="primary",
+        solidHeader = TRUE,
+        plotlyOutput("calendar_assest1"),
+        height = 500,
+        width = 12
+      ),
+      box(
+        title="Asset 2 Price Calendar",
+        status="primary",
+        solidHeader = TRUE,
+        plotlyOutput("calendar_assest2"),
+        height = 500,
+        width = 12
+      )
+    ),
       
     # 3rd row of boxes
     fluidRow(
@@ -163,7 +189,8 @@ ui <- dashboardPage(
         solidHeader = TRUE,
         plotlyOutput("asset_returns_chart"), 
         height=500, 
-        width=8),
+        width=8
+        ),
       box(
         title = "Investment Returns Inputs",
         status= "success",
@@ -366,8 +393,45 @@ server <- function(input, output, session) {
   output$portfolio_perf_chart <- 
     debounce(
       renderPlotly({
-        build_portfolio_perf_chart(react_base_data(), port_loess_param = input$port_loess_param)
+        data <- react_base_data()
+        build_portfolio_perf_chart(data, port_loess_param = input$port_loess_param)
         }), 
+      millis = 2000) # sets wait time for debounce
+  
+  
+  react_build_calendar_data <- reactive({
+    # reshapes the data for a summary view
+    return(
+      build_calendar_data(base_data = react_base_data())
+    )
+    
+  })
+  
+  output$calendar_assest1 <- 
+    debounce(
+      renderPlotly({
+        calendar_data <- react_build_calendar_data()
+        
+        plot1 <- ggplot(calendar_data, aes(monthweek, weekdayf, fill = calendar_data[,2])) + 
+          geom_tile(colour = "white") + facet_grid(year~monthf) + scale_fill_gradient(low="red", high="yellow", name = names(calendar_data)[2]) +
+          xlab("Week of Month") + ylab("") 
+        
+        ggplotly(plot1)
+          
+      }), 
+      millis = 2000) # sets wait time for debounce
+  
+  output$calendar_assest2 <- 
+    debounce(
+      renderPlotly({
+        calendar_data <- react_build_calendar_data()
+        
+        plot2 <- ggplot(calendar_data, aes(monthweek, weekdayf, fill = calendar_data[,3])) + 
+          geom_tile(colour = "white") + facet_grid(year~monthf) + scale_fill_gradient(low="red", high="yellow", name = names(calendar_data)[3]) +
+          xlab("Week of Month") + ylab("") 
+        
+        ggplotly(plot2)
+      }), 
       millis = 2000) # sets wait time for debounce
   
   
