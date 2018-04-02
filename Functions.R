@@ -120,10 +120,10 @@ build_summary_table <- function(portfolio_data){
   # merges vectors into dataframe
   asset_summary_table <- data.frame(asset_names,asset_portfolio_max_worth,asset_portfolio_latest_worth, asset_portfolio_absolute_profit, asset_portfolio_rate_of_return)
   colnames(asset_summary_table) <- c("Asset Names",
-                                    "Asset Portfolio Max Worth",
-                                    "Asset Portfolio Latest Worth",
-                                    "Asset Portfolio Absolute Profit",
-                                    "Asset Portfolio Rate of Return")
+                                     "Asset Portfolio Max Worth",
+                                     "Asset Portfolio Latest Worth",
+                                     "Asset Portfolio Absolute Profit",
+                                     "Asset Portfolio Rate of Return")
   return(asset_summary_table)
   
 }
@@ -331,38 +331,38 @@ build_asset_returns_plot <- function(asset_returns_list, asset_loess_param = 0.7
 }
 
 
-
-build_calendar_data <- function(base_data){
-  calendar_data <- base_data
-  
-  # Make a dataframe
-  calendar_data$date <- as.Date(calendar_data$date)
-  
-  # We will facet by year ~ month, and each subgraph will
-  # show week-of-month versus weekday
-  # the year is simple
-  calendar_data$year<-as.numeric(as.POSIXlt(calendar_data$date)$year+1900)
-  # the month too 
-  calendar_data$month<-as.numeric(as.POSIXlt(calendar_data$date)$mon+1)
-  # but turn months into ordered factors to control the appearance/ordering in the presentation
-  calendar_data$monthf<-factor(calendar_data$month,levels=as.character(1:12),labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"),ordered=TRUE)
-  # the day of week is again easily found
-  calendar_data$weekday = as.POSIXlt(calendar_data$date)$wday
-  # again turn into factors to control appearance/abbreviation and ordering
-  # I use the reverse function rev here to order the week top down in the graph
-  # you can cut it out to reverse week order
-  calendar_data$weekdayf<-factor(calendar_data$weekday,levels=rev(1:7),labels=rev(c("Mon","Tue","Wed","Thu","Fri","Sat","Sun")),ordered=TRUE)
-  # the monthweek part is a bit trickier 
-  # first a factor which cuts the data into month chunks
-  calendar_data$yearmonth<-as.yearmon(calendar_data$date)
-  calendar_data$yearmonthf<-factor(calendar_data$yearmonth)
-  # then find the "week of year" for each day
-  calendar_data$week <- as.numeric(format(calendar_data$date,"%W"))
-  # and now for each monthblock we normalize the week to start at 1 
-  calendar_data<-ddply(calendar_data,.(yearmonthf),transform,monthweek=1+week-min(week))
-  
-  return(calendar_data)
-  
-}
-
+# will come back to this later on perhaps, for now, it's too big of a headache
+# build_calendar_data <- function(base_data){
+#   calendar_data <- base_data
+#   
+#   # Make a dataframe
+#   calendar_data$date <- as.Date(calendar_data$date)
+#   
+#   # We will facet by year ~ month, and each subgraph will
+#   # show week-of-month versus weekday
+#   # the year is simple
+#   calendar_data$year<-as.numeric(as.POSIXlt(calendar_data$date)$year+1900)
+#   # the month too 
+#   calendar_data$month<-as.numeric(as.POSIXlt(calendar_data$date)$mon+1)
+#   # but turn months into ordered factors to control the appearance/ordering in the presentation
+#   calendar_data$monthf<-factor(calendar_data$month,levels=as.character(1:12),labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"),ordered=TRUE)
+#   # the day of week is again easily found
+#   calendar_data$weekday = as.POSIXlt(calendar_data$date)$wday
+#   # again turn into factors to control appearance/abbreviation and ordering
+#   # I use the reverse function rev here to order the week top down in the graph
+#   # you can cut it out to reverse week order
+#   calendar_data$weekdayf<-factor(calendar_data$weekday,levels=rev(1:7),labels=rev(c("Mon","Tue","Wed","Thu","Fri","Sat","Sun")),ordered=TRUE)
+#   # the monthweek part is a bit trickier 
+#   # first a factor which cuts the data into month chunks
+#   calendar_data$yearmonth<-as.yearmon(calendar_data$date)
+#   calendar_data$yearmonthf<-factor(calendar_data$yearmonth)
+#   # then find the "week of year" for each day
+#   calendar_data$week <- as.numeric(format(calendar_data$date,"%W"))
+#   # and now for each monthblock we normalize the week to start at 1 
+#   calendar_data<-ddply(calendar_data,.(yearmonthf),transform,monthweek=1+week-min(week))
+#   
+#   return(calendar_data)
+#   
+# }
+# 
 
