@@ -11,10 +11,26 @@ FULL README IN PROGRESS; SCREENSHOTS BELOW FOR REFERENCE--explanation coming soo
 ## Side-Bar UI Elements
 
 
+<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/title_links_bar.JPG" width="300" height="150">
 
-<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/ui_tab1.JPG" width="900" height="400">
+<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/asset_input_bar.JPG" width="300" height="200">
 
-<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/ui_tab2.JPG" width="900" height="400">
+<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/date_range_bar.JPG" width="300" height="150">
+
+
+## Portfolio Performance Section
+
+<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/portfolio_box_ui.JPG" width="900" height="400">
+
+<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/summary_box_ui.JPG" width="900" height="200">
+
+## Rate of Return Section
+
+
+<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/returns_box_ui.JPG" width="900" height="400">
+
+<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/sharpe_box_ui.JPG" width="900" height="400">
+
 
 ## Support Needed
 
