@@ -1,4 +1,7 @@
-# crypto-asset-comparison-tool
+## Introduction
+
+Welcome! 
+
 An R Shiny App that lets you compare the historical performance of crypto-assets and equities.
 
 FULL README IN PROGRESS; SCREENSHOTS BELOW JUST FOR REFERENCE.
