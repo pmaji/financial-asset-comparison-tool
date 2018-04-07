@@ -130,7 +130,7 @@ ui <- dashboardPage(
         
         sliderInput(
           inputId = "port_loess_param",
-          label = "Choose smoothing parameter for portfolio chart:",
+          label = "Smoothing parameter for portfolio chart:",
           min = 0.1,
           max = 2,
           value = .33,
@@ -177,7 +177,7 @@ ui <- dashboardPage(
         
         selectInput(
           "period",
-          label = "Choose period over which to calculate returns:",
+          label = "Period over which to calculate returns:",
           choices = c("daily", "weekly", "monthly", "quaterly", "yearly"),
           selected = "weekly"
         ),
@@ -188,7 +188,7 @@ ui <- dashboardPage(
         
         sliderInput(
           inputId = "asset_loess_param",
-          label = "Choose smoothing parameter for returns chart:",
+          label = "Smoothing parameter for returns chart:",
           min = 0.1,
           max = 2,
           value = .75,
@@ -224,7 +224,7 @@ ui <- dashboardPage(
         # https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield
         sliderInput(
           inputId = "Rf",
-          label = "Choose risk free rate (in decimal form)",
+          label = "Choose risk free rate (as decimal):",
           min = -0.10,
           max = 0.10,
           value = (0.01/4),
@@ -237,7 +237,7 @@ ui <- dashboardPage(
         
         sliderInput(
           inputId = "p",
-          label = "Choose desired confidence level in decimal form:",
+          label = "Choose confidence level (as decimal):",
           min = 0.1,
           max = 0.99,
           value = 0.95,
