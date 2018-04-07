@@ -40,7 +40,7 @@ The rate of return section *(screenshot below)* is entirely intuitive: it is sim
 
 ## Variance-Adjusted Return Section
 
-The variance-adjusted return section *(screenshot below)* is a slightly more complicated additional set of metrics meant to supplement the base rate of return section. The parameter that allows the user to select the period over which to calculate rate of return (from the section above) also affects the variance-adjusted return section, as the three varieties of Sharpe Ratio are calculated over that same time period. One must be careful when choosing the Risk Free Rate, because that rate should be chosen relative to the time period selected (i.e. if you choose to vizualize "weekly" returns, your chosen risk-free rate should be a weekly risk free rate). Generally speeking, risk-free rates are chosen relative to some ["US treasury rate"](https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield), but it is parameterized over a relatively wide range such that the user can choose whatever rate they see fit, within reason. 
+The variance-adjusted return section *(screenshot below)* is a slightly more complicated additional set of metrics meant to supplement the base rate of return section. The parameter that allows the user to select the period over which to calculate rate of return (from the section above) also affects the variance-adjusted return section, as the three varieties of Sharpe Ratio are calculated over that same time period. One must be careful when choosing the Risk Free Rate, because that rate should be chosen relative to the time period selected (i.e. if you choose to vizualize "weekly" returns, your chosen risk-free rate should be a weekly risk free rate). Generally speeking, risk-free rates are chosen relative to some [US treasury rate](https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield), but it is parameterized over a relatively wide range such that the user can choose whatever rate they see fit, within reason. 
 
 The three varieties of Sharpe Ratio shown are pretty standard, the only difference being the denominators, which are variance (VaR), standard deviation (StdDev), and expected shortfall (ES), in turn.
 
@@ -86,7 +86,7 @@ All are welcome to contribute issues / pull-requests to the codebase. All I ask 
 
 ## How to Access the App
 
-Presently, the app is ["hosted here"](http://96.241.22.80:7597/), but can also be run locally quite easily. Even if you have no R experience. Simply install R (I also recommend using R-Studio as your editor), and then clone / fork the GitHub repository, and open the app.R file.
+Presently, the app is [hosted here](http://96.241.22.80:7597/), but can also be run locally quite easily. Even if you have no R experience. Simply install R (I also recommend using R-Studio as your editor), and then clone / fork the GitHub repository, and open the app.R file.
 
 Upon opening the app.R file, install all of the packages referenced in the library statements at the top of the code. For example, given that first package needed is "Shiny", you would type the followng in console:
 
