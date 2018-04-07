@@ -22,8 +22,6 @@ library(plyr)
 library(scales)
 library(lubridate)
 
-
-
 # source the Functions.R file, where all main functions are stored
 source("Functions.R")
 
@@ -70,14 +68,16 @@ ui <- dashboardPage(
         "Use uppercase for all others."
       ),
       
-      # first the UI options to pick the 1st asset to compare:
+      
       br(),
+      # UI options to pick the 1st asset to compare:
       selectInput(inputId = "asset_1a",
                   label = "Select 1st asset of interest:",
                   choices = symbol_list, 
                   selected = "eth", 
                   multiple = FALSE,
                   selectize = TRUE),
+      # UI options to pick the 2nd asset to compare:
       selectInput(inputId = "asset_2a",
                   label = "Select 2nd asset of interest:",
                   choices = symbol_list, 
@@ -149,7 +149,6 @@ ui <- dashboardPage(
     
     # 2nd row of boxes  
     fluidRow(
-      # formattable test
       box(
         title="Portfolio Performance Summary Table",
         status="primary",
@@ -160,32 +159,10 @@ ui <- dashboardPage(
       )
     ),
     
-    # # calendar row of boxes
-    # maybe will come back to the heatmaps later on, for now it's too big of headache
-    # fluidRow(
-    #   box(
-    #     title=(paste0(input$asset_1a, " Price Calendar")),
-    #     status="primary",
-    #     solidHeader = TRUE,
-    #     plotlyOutput("calendar_assest1"),
-    #     height = 500,
-    #     width = 12
-    #   ),
-    #   box(
-    #     title=(paste0(input$asset_2a, " Price Calendar")),
-    #     status="primary",
-    #     solidHeader = TRUE,
-    #     plotlyOutput("calendar_assest2"),
-    #     height = 500,
-    #     width = 12
-    #   )
-    # ),
-    
     # 3rd row of boxes
     fluidRow(
       box(
         title="Investment Returns Chart", 
-        # status sets color (primary, success, info, warning, danger)
         status="success", 
         solidHeader = TRUE,
         plotlyOutput("asset_returns_chart"), 
@@ -229,7 +206,6 @@ ui <- dashboardPage(
     fluidRow(
       box(
         title="Variance-Adjusted Returns Chart", 
-        # status sets color (primary, success, info, warning, danger)
         status="warning", 
         solidHeader = TRUE,
         plotlyOutput("portfolio_sharpe_chart"), 
@@ -287,7 +263,7 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
   
-  # utility functions to be used within the server
+  # utility functions to be used within the server; this enables us to use a textinput for our portfolio values
   exists_as_number <- function(item) {
     !is.null(item) && !is.na(item) && is.numeric(item)
   }
@@ -400,47 +376,9 @@ server <- function(input, output, session) {
       millis = 2000) # sets wait time for debounce
   
   
-  # will maybe come back to this later if I want to spend the time trouble shooting the stupid axis clipping
-  # react_build_calendar_data <- reactive({
-  #   # reshapes the data for a summary view
-  #   return(
-  #     build_calendar_data(base_data = react_base_data())
-  #   )
-  #   
-  # })
-  
-  # output$calendar_assest1 <- 
-  #   debounce(
-  #     renderPlotly({
-  #       calendar_data <- react_build_calendar_data()
-  #       
-  #       plot1 <- ggplot(calendar_data, aes(monthweek, weekdayf, fill = calendar_data[,2])) + 
-  #         geom_tile(colour = "white") + facet_grid(year~monthf) + scale_fill_gradient(low="red", high="yellow", name = names(calendar_data)[2]) +
-  #         xlab("Week of Month") + ylab("") 
-  #       
-  #       ggplotly(plot1)
-  #       
-  #     }), 
-  #     millis = 2000) # sets wait time for debounce
-  # 
-  # output$calendar_assest2 <- 
-  #   debounce(
-  #     renderPlotly({
-  #       calendar_data <- react_build_calendar_data()
-  #       
-  #       plot2 <- ggplot(calendar_data, aes(monthweek, weekdayf, fill = calendar_data[,3])) + 
-  #         geom_tile(colour = "white") + facet_grid(year~monthf) + scale_fill_gradient(low="red", high="yellow", name = names(calendar_data)[3]) +
-  #         xlab("Week of Month") + ylab("") 
-  #       
-  #       ggplotly(plot2)
-  #     }), 
-  #     millis = 2000) # sets wait time for debounce
-  
-  
   output$port_summary_table <- 
     debounce(
       renderFormattable({
-        # adds on all the formattable details
         # css color names taken from http://www.crockford.com/wrrrld/color.html
         react_formattable()
         
@@ -460,7 +398,6 @@ server <- function(input, output, session) {
         }
       ), millis = 2000)
   
-  # 3 step process to create main returns chart: create data, derive ratio, make viz
   output$asset_returns_chart <-
     debounce(
       renderPlotly(
