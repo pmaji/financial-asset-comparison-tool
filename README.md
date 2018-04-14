@@ -6,6 +6,15 @@ Welcome! The **Financial Asset Comparison Tool** is an R Shiny App that faciliat
 
 The ultimate purpose of this tool is thus to settle every question of the form: "If I had **M amount of money to invest** over **time period T**, what would have been the better investment as judged by various metrics: **Asset A** or **Asset B**?" 
 
+To determine what metrics might be of greatest importance to your particular question, consider the following:
+
+* What if I care about the absolute profit that I make?
+     * If so, then consider the simple portfolio performance metrics.
+* What if I care about relative gains and losses?
+     * If so, then consider the rate of return metrics.
+* What if I care about the trade-off that exists between asset performance and the risk / volatility associated with holding that asset?
+     * If so, then consider the variance-adjusted rate of return metrics.
+     
 This tool is modular in nature, such that there are some parameters that affect the entire app, and others that only affect certain outputs. This allows the user, at a high level, to select assets of interest, a date-range of relevance, and an initial investment amount, and thereafter compare the chosen assets using a variety of techinques. The app faciliates this procedural evaluation by nature of its layout, such that there are sections that focus on portfolio value, returns, and risk-adjusted returns. Over the course of the rest of this document, we will walk through all of the features of the app one-by-one, explaining their purpose, functionality, along with any pertinent technical details. In all screenshots of the app below, I will be using **Bitcoin (btc)** and **Ethereum (eth)** as the two assets to be compared. Read all the way through the final section to learn how you can support this project and how to access the app, and I hope this tool helps you make more informed financial decisions moving forward! 
 
 
