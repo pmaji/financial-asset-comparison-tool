@@ -5,7 +5,7 @@ symbol_list_initial <- read.csv(file="CSVs/master.csv", colClasses=c("NULL",NA))
 symbol_list <- symbol_list_initial[!(is.na(symbol_list_initial$Symbol) | symbol_list_initial$Symbol==""), ]
 
 
-crypto_list <- c("btc","bch","ltc","eth")
+crypto_list <- c("btc","bch","ltc","eth","eos","ada","neo","etc")
 
 # Function for fetching data and constructing main portfolio table
 
