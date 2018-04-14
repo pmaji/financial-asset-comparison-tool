@@ -70,9 +70,15 @@ Below is a summary of the ways in which anyone interested can assist with / supp
 
      1. **ETH donations address: 0xA40094D607063a156e230174e01f5b4Fd1101549**
      
+     ![ETH donations address](https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/eth_address.png)
+     
      2. **BTC donations address (segwit): 3NWsx8s1NeDDc3AF4VtRwBKafdG7jyEnQL**
      
+     ![ETH donations address](https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/btc_address.png)
+     
      3. **LTC donations address: MRqXizDN7u2t5KMxuZmssE4N2P4E21Z9MB**
+     
+     ![ETH donations address](https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/ltc_address.png)
      
 3. Overall promotion:
 
