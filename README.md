@@ -68,11 +68,11 @@ Below is a summary of the ways in which anyone interested can assist with / supp
 
 2. Donations appreciated for host-fees and development work:
 
-     1. **ETH donations address: 0xF80Ca1F82Df6e3c4d6dca09b51AC78ED3E1D8E17**
+     1. **ETH donations address: 0xA40094D607063a156e230174e01f5b4Fd1101549**
      
-     2. **BTC donations address (segwit): 3KKtEfqXQUNdh8mbEBT7ZBaiqLHRBZa4Gw**
+     2. **BTC donations address (segwit): 3NWsx8s1NeDDc3AF4VtRwBKafdG7jyEnQL**
      
-     3. **LTC donations address: LWaLxgaBveWATqwsYpYfoAqiG2tb2o5awM**
+     3. **LTC donations address: MRqXizDN7u2t5KMxuZmssE4N2P4E21Z9MB**
      
 3. Overall promotion:
 
