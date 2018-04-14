@@ -66,7 +66,13 @@ Below is a summary of the ways in which anyone interested can assist with / supp
      
      2. If you want new features integrated or have any other ideas, open a new issue and I'll address it ASAP.
 
-2. Donations appreciated for host-fees and development work:
+2. Overall promotion:
+
+     1. Keep sharing with you friends / fellow traders / coders so that we can get more constructive feedback.
+     
+     2. **Consider starring us on GitHub** as a means of sharing this project with the broader community.
+
+3. Donations appreciated for hosting-fees and development work (addresses and QR codes below):
 
      1. **ETH donations address: 0xA40094D607063a156e230174e01f5b4Fd1101549**
      
@@ -80,11 +86,7 @@ Below is a summary of the ways in which anyone interested can assist with / supp
      
      ![ETH donations address](https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/ltc_address.png)
      
-3. Overall promotion:
 
-     1. Keep sharing with you friends / fellow traders / coders so that we can get more constructive feedback.
-     
-     2. **Consider starring us on GitHub** as a means of sharing this project with the broader community.
      
 ## Contribution Rules
 
