@@ -69,7 +69,7 @@ The app is laid out in such a way that as you descend vertically, you follow a l
 
 ## Technical Details
 
-Crypto currency data scraped from [Coin Metrics](https://coinmetrics.io/). Stock market OHCL data obtained via [Yahoo Finance functions](https://www.rdocumentation.org/packages/quantmod/versions/0.4-12/topics/getSymbols.yahoo) in the QuantMod R package. The main app structure and functionalities, along with all necessary packages, can be found in the app.R, while all analytic, data-cleaning, and visualization functions can be found in the functions.R file.
+Crypto currency data scraped from [Coin Metrics](https://coinmetrics.io/). Stock market OHCL data obtained via [Yahoo Finance functions](https://www.rdocumentation.org/packages/quantmod/versions/0.4-12/topics/getSymbols.yahoo) in the QuantMod R package. The main app structure and functionalities, along with all necessary packages, can be found in the app.R, while all analytic, data-cleaning, and visualization functions can be found in the Functions.R file.
 
 ## Support Needed
 
