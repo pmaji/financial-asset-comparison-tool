@@ -67,6 +67,10 @@ The app is laid out in such a way that as you descend vertically, you follow a l
 
 3. Thereafter, we depart from metrics that depend on the initial amount invested, and begin addressing questions of return on investment. The first section focuses on the most vanilla definition of return on investment, while the final section allows the user to see if those rates of return are truly worth it given the variance, standard deviation, and expected shortfall inherent to the assets in question. This is put last because it enables the user to see, following the logic of the series of views from top to bottom, that even though a particular asset may have gross returns that are higher than another, and even a slightly more elevated rate of return, upon adjusting for variance, the other investment would have been a "better" choice. The story told will obviously vary by assets and time period selected, but the logical progression remains the same.
 
+## Technical Details
+
+Crypto currency data scraped from [Coin Metrics](https://coinmetrics.io/). Stock market OHCL data obtained via [Yahoo Finance functions](https://www.rdocumentation.org/packages/quantmod/versions/0.4-12/topics/getSymbols.yahoo) in the QuantMod R package. The main app structure and functionalities, along with all necessary packages, can be found in the app.R, while all analytic, data-cleaning, and visualization functions can be found in the functions.R file.
+
 ## Support Needed
 
 Below is a summary of the ways in which anyone interested can assist with / support the project :
