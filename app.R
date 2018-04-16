@@ -9,6 +9,7 @@ library(htmlwidgets)
 library(data.table)
 library(rsconnect) # for publishing
 library(plotly)
+library(plyr) # best practice to load plyr first and then dplyr
 library(dplyr)
 library(tidyr)
 library(shinythemes)
@@ -18,10 +19,9 @@ library(formattable)
 library(shinydashboard)
 library(ggplot2)
 library(reshape2)
-library(plyr)
 library(scales)
 library(lubridate)
-x
+
 # source the Functions.R file, where all main functions are stored
 source("Functions.R")
 
