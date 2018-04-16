@@ -20,7 +20,7 @@ This tool is modular in nature, such that there are some parameters that affect 
 Over the course of the rest of this document, we will walk through all of the features of the app one-by-one, explaining their purpose and functionality, along with any pertinent technical details. There is plenty of explanatory material contained within the web app UI itself, primarily via small comments explaining inputs, and embedded hyperlinks that provide more information about particular metrics or definitions. In cases where I provide such links and explanation wthin the app UI, I will not repeat the explanation here. In all screenshots of the app below, I will be using **Bitcoin (btc)** and **Ethereum (eth)** as the two assets to be compared. Read all the way through the final section to learn how you can support this project and how to access the app. I hope this tool helps you make more informed financial decisions moving forward, and better evaluate those you have made previously!
 
 
-## Sidebar UI Elements
+## UI Overview: Sidebar UI Elements
 
 Starting with the top-leftmost elements of the UI *(screenshot below)*, you can see that directly to the right of the title, there is an icon composed of three horizonal lines. Clicking this icon will expand or collapse the entire sidebar. Below the title you will find 3 hyperlinked buttons that will direct the user to this markdown document, this GitHub's issue page, and the code hosted on GitHub, in turn. 
 
@@ -35,7 +35,7 @@ The final segment of the sidebar *(screenshot below)* allows the user to pick wh
 <img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/date_range_bar.JPG" width="300" height="150">
 
 
-## Portfolio Performance Section
+## UI Overview: Portfolio Performance Section
 
 The main time series chart shown *(screenshot below)* is rather intuitive: it simply shows the worth of two single-asset portfolios over time. In layman's terms, had you invested the same amount in both assets over the time series specified, this chart shows you the value of that investment over time. The default smoothing parameters were chosen arbitrarily to balance the tradeoff of resiliency vis-a-vis outliers and maintenance of fit, but can be changed as the user desires.
 
@@ -45,13 +45,13 @@ The portfolio summary table *(screenshot below)* presents multiple aggregate met
 
 <img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/summary_box_ui.JPG" width="900" height="200">
 
-## Rate of Return Section
+## UI Overview: Rate of Return Section
 
 The rate of return section *(screenshot below)* is entirely intuitive: it is simply a time series chart of the returns for the chosen asset over the period specified. 
 
 <img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/returns_box_ui.JPG" width="900" height="400">
 
-## Variance-Adjusted Returns Section
+## UI Overview: Variance-Adjusted Returns Section
 
 The variance-adjusted return section *(screenshot below)* is a slightly more complicated additional set of metrics meant to supplement the base rate of return section. The parameter that allows the user to select the period over which to calculate rate of return (from the section above) also affects the variance-adjusted returns section, as the three varieties of Sharpe Ratio are calculated over that same time period. One must be careful when choosing the Risk Free Rate, because that rate should be chosen relative to the time period selected (i.e. if you choose to visualize "weekly" returns, your chosen risk-free rate should reflect a weekly risk free rate). Generally speaking, risk-free rates are chosen relative to some [US treasury rate](https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield), but it is parameterized over a relatively wide range such that the user can choose whatever rate they see fit, within reason. 
 
