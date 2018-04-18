@@ -313,56 +313,32 @@ server <- function(input, output, session) {
     )
   })
   
+
+simple_formatter <- function(){
+    formatter("span",
+              style = x ~ style(
+                display = "inline-block",
+                direction = "rtl",
+                "border-radius" = "4px",
+                "padding-right" = "2px",
+                "background-color" = csscolor("darkslategray"),
+                width = percent(proportion(x)),
+                color = csscolor(gradient(x, "red", "green"))
+              ))
+  }
+  
   react_formattable <- reactive({
     return(
       formattable(react_port_summary_table(), 
                   list(
-                    "Asset Portfolio Max Worth" = formatter("span",
-                                                            style = x ~ style(
-                                                              display = "inline-block",
-                                                              direction = "rtl",
-                                                              "border-radius" = "4px",
-                                                              "padding-right" = "2px",
-                                                              "background-color" = csscolor("darkslategray"),
-                                                              width = percent(proportion(x)),
-                                                              color = csscolor(gradient(x, "red", "green"))
-                                                            )),
-                    "Asset Portfolio Latest Worth" = formatter("span",
-                                                               style = x ~ style(
-                                                                 display = "inline-block",
-                                                                 direction = "rtl",
-                                                                 "border-radius" = "4px",
-                                                                 "padding-right" = "2px",
-                                                                 "background-color" = csscolor("darkslategray"),
-                                                                 width = percent(proportion(x)),
-                                                                 color = csscolor(gradient(x, "red", "green"))
-                                                               )),
-                    "Asset Portfolio Absolute Profit" = formatter("span",
-                                                                  style = x ~ style(
-                                                                    display = "inline-block",
-                                                                    direction = "rtl",
-                                                                    "border-radius" = "4px",
-                                                                    "padding-right" = "2px",
-                                                                    "background-color" = csscolor("darkslategray"),
-                                                                    width = percent(proportion(x)),
-                                                                    color = csscolor(gradient(x, "red", "green"))
-                                                                  )),
-                    "Asset Portfolio Rate of Return" = formatter("span",
-                                                                 style = x ~ style(
-                                                                   display = "inline-block",
-                                                                   direction = "rtl",
-                                                                   "border-radius" = "4px",
-                                                                   "padding-right" = "2px",
-                                                                   "background-color" = csscolor("darkslategray"),
-                                                                   width = percent(proportion(x)),
-                                                                   color = csscolor(gradient(x, "red", "green"))
-                                                                 ))
-                    
+                    "Asset Portfolio Max Worth" = simple_formatter(),
+                    "Asset Portfolio Latest Worth" = simple_formatter(),
+                    "Asset Portfolio Absolute Profit" = simple_formatter(),
+                    "Asset Portfolio Rate of Return" = simple_formatter()
+                    )
                   )
       )
-      
-    )
-  })
+    })
   
   
   
