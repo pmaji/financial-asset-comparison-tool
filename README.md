@@ -4,6 +4,10 @@ Welcome! The **Financial Asset Comparison Tool** is an R Shiny App that facilita
 
 ![Methodology Flowchart](https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/methodology_flowchart.JPG)
 
+This scaling of metric complexity is also intuitively integrated into the UI design of the app itself, as illustrated by the screenshot below.
+
+<img src="https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/ui_scaling_complexity.JPG" width="900" height="500">
+
 The ultimate purpose of this tool is thus to settle every question of the form: "If I had **M amount of money to invest** over **time period T**, what would have been the better investment as judged by various metrics: **Asset A** or **Asset B**?" 
 
 To determine what metrics might be of greatest importance to your particular question, consider the following:
