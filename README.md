@@ -114,7 +114,7 @@ All are welcome to contribute issues / pull-requests to the codebase. All I ask 
 
 ## How to Access the App
 
-Presently, the app is [hosted here](http://96.241.22.80:7597/), but it can also be run locally quite easily. Even if you have no R experience. Simply install R (I also recommend using R-Studio as your editor), and then clone / fork the GitHub repository, and open the app.R file.
+Presently, the app is [hosted here](http://96.241.22.80:7597/), and a backup version of the app (to be used sparingly as it is slower and more expensive to host) is [located here](https://pjeff.shinyapps.io/crypto-asset-comparison-tool/). That said, the app can also be run locally quite easily. Even if you have no R experience. Simply install R (I also recommend using R-Studio as your editor), and then clone / fork the GitHub repository, and open the app.R file.
 
 Upon opening the app.R file, install all of the packages referenced in the library statements at the top of the code. For example, given that first package needed is "Shiny", you would type the following in console:
 
