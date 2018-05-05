@@ -1,11 +1,18 @@
 # Functions file to be sourced within app later
 
 options(stringsAsFactors = FALSE)
+
+# used to trim the available options via the in-app selectize statement
 symbol_list_initial <- read.csv(file="CSVs/master.csv", colClasses=c("NULL",NA))
 symbol_list <- symbol_list_initial[!(is.na(symbol_list_initial$Symbol) | symbol_list_initial$Symbol==""), ]
 
 
-crypto_list <- c("btc","bch","ltc","eth","eos","ada","neo","etc")
+crypto_list <- c("btc","bch","ltc","eth","eos","ada","neo","etc",
+                 "xem","dcr","zec","dash","doge","pivx","xmr","vtc","xvg",
+                 "xrp","xlm","lsk","gas","dgb","btg","trx","icx","ppt","omg",
+                 "bnb","snt","wtc","rep","zrx","veri","bat","knc","gnt","fun",
+                 "gno","salt","ethos","icn","pay","mtl","cvc","ven","rhoc","ae",
+                 "ant","btm","lrc","zil")
 
 # Function for fetching data and constructing main portfolio table
 
@@ -140,13 +147,13 @@ build_portfolio_perf_chart <- function(data, port_loess_param = 0.33){
   asset_name1 <- sub('_.*', '', names(port_tbl)[2])
   asset_name2 <- sub('_.*', '', names(port_tbl)[3])
   
-  # transforms dates into numeric type so smoothing can be done
+  # transforms dates into correct type so smoothing can be done
   port_tbl[,1] <- as.Date(port_tbl[,1])
   date_in_numeric_form <- as.numeric((port_tbl[,1]))
-  # picking smoothing parameter
+  # assigning loess smoothing parameter
   loess_span_parameter <- port_loess_param
   
-  # now building the plotly
+  # now building the plotly itself
   port_perf_plot <- plot_ly(data = port_tbl, x = ~port_tbl[,1]) %>%
     # asset 1 data plotted
     add_markers(y =~port_tbl[,2],
@@ -180,7 +187,6 @@ build_portfolio_perf_chart <- function(data, port_loess_param = 0.33){
       xref = "paper",
       yref = "paper",
       text = "",
-      # text = "<b>Investment Portfolio Performance Comparison</b>",
       showarrow = F
     )
   
