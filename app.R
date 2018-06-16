@@ -3,24 +3,23 @@ library(shiny)
 library(xts) # for xts objects
 library(quantmod) # for the Yahoo finance imports
 library(zoo) # for date rangling
-library(TTR)
-library(magrittr)
-library(htmlwidgets)
-library(data.table)
+library(TTR) # for stock analytic functions
+library(htmlwidgets) # self-explanatory
+library(data.table) # speeding up some matrix manipulation
 library(rsconnect) # for publishing
-library(plotly)
+library(plotly) # viz
 library(plyr) # best practice to load plyr first and then dplyr
-library(dplyr)
-library(tidyr)
-library(shinythemes)
-library(PerformanceAnalytics)
-library(DT)
-library(formattable)
-library(shinydashboard)
-library(ggplot2)
-library(reshape2)
-library(scales)
-library(lubridate)
+library(dplyr) # for pipes
+library(tidyr) # for certain data transformation
+library(shinythemes) # dashboard aesthetics 
+library(PerformanceAnalytics) # analytic functions
+library(DT) # speeding up some matrix manipulation
+library(formattable) # for fancy tables 
+library(shinydashboard) # self-explanatory
+library(ggplot2) # for viz
+library(reshape2) # data manipulaiton
+library(scales) # time / date / axes scales 
+library(lubridate) # date manipulation 
 
 # source the Functions.R file, where all main functions are stored
 source("Functions.R")
@@ -269,6 +268,8 @@ server <- function(input, output, session) {
   }
   
   # data-creation reactives (i.e. everything that doesn't directly feed an output)
+  
+  # first is the main data pull which will fire whenever the primary inputs (asset_1a, asset_2a, initial_investment, or port_dates1a change)
   react_base_data <- reactive({
     if (exists_as_number(as.numeric(input$initial_investment)) == TRUE) {
       # creates the dataset to feed the viz
