@@ -88,6 +88,15 @@ get_pair_data <- function(asset_1 = "eth",
   both_assets_data <- both_assets_data %>%
     filter(between(as.Date(date), as.Date(port_start_date), as.Date(port_end_date)))
   
+  # ensure that all types are numeric for prices because odd type conversion happen sometimes when data change
+  both_assets_data <- both_assets_data %>%  
+    mutate(asset_one = as.numeric(.[[2]]),
+           asset_two = as.numeric(.[[3]])
+    ) %>%
+    select(date, asset_one, asset_two) %>%
+    plyr::rename(c('asset_one'=asset_1,
+                   'asset_two'=asset_2))
+  
   # Now we get the portfolio values
   # First we need the market price for both assets at time of purchase
   asset_1_mp_at_purchase <- both_assets_data %>%
@@ -101,8 +110,8 @@ get_pair_data <- function(asset_1 = "eth",
   # now we built the actual portfolio value over time columns
   portfolio_data <- both_assets_data %>%
     mutate(
-      asset_1_port_val = (initial_investment*(both_assets_data[,2])/asset_1_mp_at_purchase[1,1]),
-      asset_2_port_val = (initial_investment*(both_assets_data[,3])/asset_2_mp_at_purchase[1,1])
+      asset_1_port_val = (initial_investment*(as.numeric(both_assets_data[,2]))/as.numeric(asset_1_mp_at_purchase[1,1])),
+      asset_2_port_val = (initial_investment*(as.numeric(both_assets_data[,3]))/as.numeric(asset_2_mp_at_purchase[1,1]))
     ) 
   
   # creating the strings with which to rename portoflio value columns
