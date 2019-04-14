@@ -1,3 +1,6 @@
+# point this to wherever you have cloned this app
+setwd("/Users/pauljeffries/Desktop/personal/personal_code/financial-asset-comparison-tool/")
+
 # import all necessary packages
 library(shiny)
 library(xts) # for xts objects
