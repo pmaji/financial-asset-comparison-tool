@@ -1,0 +1,12 @@
+name: financial-asset-comparison-tool
+title: financial-asset-comparison-tool
+username:
+account: pjeff
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 862903
+bundleId: 2008999
+url: https://pjeff.shinyapps.io/financial-asset-comparison-tool/
+when: 1555201326.17833
+asMultiple: FALSE
+asStatic: FALSE
