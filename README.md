@@ -83,7 +83,7 @@ Below is a summary of the ways in which anyone interested can assist with / supp
 
 1. Technical assistance and ideation:
 
-     1. If you have coding experience, check out the code and issues tab and see if you can help with anything or propose new additions.
+     1. If you have coding experience, check out the code and issues tab and see if you can help with anything or propose new additions. There are also a few issues that, while unaddressed, were not hyper-important and were subsequently closed due to a lack of capacity, so if you're looking to help out, start by looking through the most recently closed issues for some that still have components that aren't completely finished. 
      
      2. If you want new features integrated or have any other ideas, open a new issue and I'll address it ASAP.
 
@@ -93,28 +93,13 @@ Below is a summary of the ways in which anyone interested can assist with / supp
      
      2. **Consider starring us on GitHub** as a means of sharing this project with the broader community.
 
-3. Donations appreciated for hosting-fees and development work (addresses and QR codes below):
-
-     1. **ETH donations address: 0xA40094D607063a156e230174e01f5b4Fd1101549**
-     
-     ![ETH donations address](https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/eth_address.png)
-     
-     2. **BTC donations address (segwit): 3NWsx8s1NeDDc3AF4VtRwBKafdG7jyEnQL**
-     
-     ![ETH donations address](https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/btc_address.png)
-     
-     3. **LTC donations address: MRqXizDN7u2t5KMxuZmssE4N2P4E21Z9MB**
-     
-     ![ETH donations address](https://raw.githubusercontent.com/pmaji/crypto-asset-comparison-tool/master/screenshots/ltc_address.png)
-     
-
 ## Contribution Rules
 
-All are welcome to contribute issues / pull-requests to the codebase. All I ask is that you include a detailed description of your contribution, that your code is thoroughly-commented, and that you test your contribution locally with the most recent version of the Master branch integrated prior to submitting the PR. If you have further questions about collaboration, feel free to message me on Telegram (my public ID is the same as my GitHub ID).
+All are welcome to contribute issues / pull-requests to the codebase. All I ask is that you include a detailed description of your contribution, that your code is thoroughly-commented, and that you test your contribution locally with the most recent version of the Master branch integrated prior to submitting the PR. If you have further questions about collaboration, feel free to [reach out to me via Twitter](https://twitter.com/ByPaulJ).
 
 ## How to Access the App
 
-Presently, the app is [hosted here](http://96.241.22.80:7597/), and a backup version of the app (to be used sparingly as it is slower and more expensive to host) is [located here](https://pjeff.shinyapps.io/crypto-asset-comparison-tool/). That said, the app can also be run locally quite easily. Even if you have no R experience. Simply install R (I also recommend using R-Studio as your editor), and then clone / fork the GitHub repository, and open the app.R file.
+Presently, the app is [hosted here](https://pjeff.shinyapps.io/crypto-asset-comparison-tool/), although I recommend using this link sparingly, as I only have a small amount of free runtime allocated to this app via my shinyapps.io account. That said, the app can also be run locally quite easily. Even if you have no R experience. Simply install R (I also recommend using R-Studio as your IDE), and then clone / fork the GitHub repository, and open the app.R file.
 
 Upon opening the app.R file, install all of the packages referenced in the library statements at the top of the code. For example, given that first package needed is "Shiny", you would type the following in console:
 
@@ -127,6 +112,7 @@ Do this for all packages listed in the app.R, and then to run the app, open a te
 ```R
 R -e "shiny::runApp('app.R')"
 ```
+
 This will initialize the app locally, and will print the address to enter into your browser of choice for local viewing. 
 
 **I hope that this explanation has proven helpful to you, and that you enjoy and benefit from my tool!** 
