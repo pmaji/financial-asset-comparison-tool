@@ -34,7 +34,7 @@ ui <- dashboardPage(
   skin="blue",
   
   dashboardHeader(
-    title="Asset Comparison Tootlbox",
+    title="Asset Comparison Toolbox",
     titleWidth = 300
   ),
   
