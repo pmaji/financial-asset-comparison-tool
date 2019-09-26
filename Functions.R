@@ -26,7 +26,7 @@ get_pair_data <- function(asset_1 = "eth",
   # If it's a crypto asset then get it from coinmetrics.io; else get it from yahoo API
   if(asset_1 %in% crypto_list == T){
     # create string to be used in URL call
-    crypto_url_1 <- paste0("https://coinmetrics.io/data/",asset_1,".csv")
+    crypto_url_1 <- paste0("https://coinmetrics.io/newdata/",asset_1,".csv")
     # pull in data from web-hosted CSV
     asset_1_data <- fread(crypto_url_1)
     # drop all the data we don't need, keeping only date and price
@@ -51,7 +51,7 @@ get_pair_data <- function(asset_1 = "eth",
   # If it's a crypto asset then get it from coinmetrics.io; else get it from yahoo API
   if(asset_2 %in% crypto_list == T){
     # create string to be used in URL call
-    crypto_url_2 <- paste0("https://coinmetrics.io/data/",asset_2,".csv")
+    crypto_url_2 <- paste0("https://coinmetrics.io/newdata/",asset_2,".csv")
     # pull in data from web-hosted CSV
     asset_2_data <- fread(crypto_url_2)
     # drop all the data we don't need, keeping only date and price
