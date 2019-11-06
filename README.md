@@ -104,7 +104,7 @@ Presently, the app is [hosted here](https://pjeff.shinyapps.io/financial-asset-c
 Upon opening the app.R file, install all of the packages referenced in the library statements at the top of the code. For example, given that first package needed is "shiny", you would type the following in the R console which you can open by running the command `R`.
 
 ```R 
-install.packages(c("shiny", "xts", "quantmod", "zoo", "TTR", "htmlwidgets", "data", "rsconnect", "plotly", "plyr", "dplyr", "tidyr", "shinythemes", "PerformanceAnalytics", "DT", "formattable", "shinydashboard", "ggplot2", "reshape2", "scales", "lubridate"))
+install.packages(c("shiny", "xts", "quantmod", "zoo", "TTR", "htmlwidgets", "data.table", "rsconnect", "plotly", "plyr", "dplyr", "tidyr", "shinythemes", "PerformanceAnalytics", "DT", "formattable", "shinydashboard", "ggplot2", "reshape2", "scales", "lubridate"))
 ```
 
 Do this for all packages listed in the app.R, and then to run the app, open a terminal, cd to wherever you have cloned the repository, and type:
