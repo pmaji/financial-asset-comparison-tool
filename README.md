@@ -101,10 +101,10 @@ All are welcome to contribute issues / pull-requests to the codebase. All I ask 
 
 Presently, the app is [hosted here](https://pjeff.shinyapps.io/financial-asset-comparison-tool/), although I recommend using this link sparingly, as I only have a small amount of free runtime allocated to this app via my shinyapps.io account. That said, the app can also be run locally quite easily. Even if you have no R experience. Simply install R (I also recommend using R-Studio as your IDE), and then clone / fork the GitHub repository, and open the app.R file.
 
-Upon opening the app.R file, install all of the packages referenced in the library statements at the top of the code. For example, given that first package needed is "Shiny", you would type the following in console:
+Upon opening the app.R file, install all of the packages referenced in the library statements at the top of the code. For example, given that first package needed is "shiny", you would type the following in the R console which you can open by running the command `R`.
 
 ```R 
-install.packages("Shiny")
+install.packages(c("shiny", "xts", "quantmod", "zoo", "TTR", "htmlwidgets", "data", "rsconnect", "plotly", "plyr", "dplyr", "tidyr", "shinythemes", "PerformanceAnalytics", "DT", "formattable", "shinydashboard", "ggplot2", "reshape2", "scales", "lubridate"))
 ```
 
 Do this for all packages listed in the app.R, and then to run the app, open a terminal, cd to wherever you have cloned the repository, and type:
