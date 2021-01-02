@@ -95,7 +95,7 @@ Below is a summary of the ways in which anyone interested can assist with / supp
 
 ## Contribution Rules
 
-All are welcome to contribute issues / pull-requests to the codebase. All I ask is that you include a detailed description of your contribution, that your code is thoroughly-commented, and that you test your contribution locally with the most recent version of the Master branch integrated prior to submitting the PR. If you have further questions about collaboration, feel free to [reach out to me via Twitter](https://twitter.com/ByPaulJ).
+All are welcome to contribute issues / pull-requests to the codebase. All I ask is that you include a detailed description of your contribution, that your code is thoroughly-commented, and that you test your contribution locally with the most recent version of the Master branch integrated prior to submitting the PR. If you have further questions about collaboration, feel free to open and issue.
 
 ## How to Access the App
 
